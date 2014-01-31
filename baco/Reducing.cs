@@ -47,7 +47,7 @@ namespace baco
 					{
 						Logger.Log(e, "Directory.Delete()", dir);
 					}
-					var file = Path.ChangeExtension(dir, Hash.FileExtension);
+					var file = Hash.Hashes(dir);
 					try
 					{
 						try

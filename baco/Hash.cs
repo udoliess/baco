@@ -1,13 +1,15 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 
 namespace baco
 {
 	public static class Hash
 	{
-		public static string FileExtension = "sha1";
+		const string hashesExtension = "sha1.gz";
+		const string partialExtension = "part";
 
 		static HashAlgorithm CreateAlgorithm()
 		{
@@ -22,6 +24,15 @@ namespace baco
 				hashCharacters = alg.HashSize / 4;
 		}
 
+		/// <summary>
+		/// Calculates hash/checksum from file.
+		/// </summary>
+		/// <returns>
+		/// The file.
+		/// </returns>
+		/// <param name='path'>
+		/// Path.
+		/// </param>
 		public static string FromFile(string path)
 		{
 			using (var fileStream = File.OpenRead(path))
@@ -30,7 +41,7 @@ namespace baco
 				return AsString(alg.ComputeHash(bufferedStream));
 		}
 
-		public static string AsString(byte[] hash)
+		static string AsString(byte[] hash)
 		{
 			var str = string.Join(null, Array.ConvertAll<byte, string>(hash, x => x.ToString("x2")));
 			return str;
@@ -40,16 +51,14 @@ namespace baco
 		/// Reads the catalog.
 		/// </summary>
 		/// <param name='hashes'>
-		/// Path to catalog file.
+		/// Path to hash/checksum file.
 		/// </param>
 		/// <param name='entry'>
 		/// Entry handling action.
 		/// </param>
 		public static void ReadHashes(string hashes, Action<string, string> entry)
 		{
-			using (var fileStream = File.OpenRead(hashes))
-			using (var bufferedStream = new BufferedStream(fileStream, Const.BufferSize))
-			using (var streamReader = new StreamReader(bufferedStream))
+			using (var streamReader = new StreamReader(new GZipStream(File.OpenRead(hashes), CompressionMode.Decompress)))
 			{
 				var delims = new char[] { ' ', '*', '\t' };
 				for (; ; )
@@ -71,19 +80,68 @@ namespace baco
 		/// <summary>
 		/// Appends the hash.
 		/// </summary>
-		/// <param name='hashes'>
-		/// Path to catalog file.
+		/// <param name='writer'>
+		/// Writer.
 		/// </param>
 		/// <param name='hash'>
-		/// Hash value.
+		/// Hash.
 		/// </param>
 		/// <param name='file'>
-		/// Filename.
+		/// File.
 		/// </param>
-		public static void AppendHash(string hashes, string hash, string file)
+		public static void AppendHash(TextWriter writer, string hash, string file)
 		{
-			using (var writer = new StreamWriter(new FileStream(hashes, FileMode.Append)))
-				writer.WriteLine(hash + " *" + file);
+			writer.WriteLine(hash + " *" + file);
+		}
+
+		/// <summary>
+		/// Creates a text writer for hash/checksum file.
+		/// </summary>
+		/// <returns>
+		/// The hashes.
+		/// </returns>
+		/// <param name='hashes'>
+		/// Hashes.
+		/// </param>
+		public static TextWriter CreateHashes(string hashes)
+		{
+			return new StreamWriter(new GZipStream(File.OpenWrite(hashes), CompressionMode.Compress));
+		}
+
+		/// <summary>
+		/// Returns file name for hash/checksum file.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance hashes backup; otherwise, <c>false</c>.
+		/// </returns>
+		/// <param name='backup'>
+		/// Backup.
+		/// </param>
+		public static string Hashes(string backup)
+		{
+			return Path.ChangeExtension(backup, Hash.hashesExtension);
+		}
+
+		/// <summary>
+		/// Returns file name for partial hash/checksum file.
+		/// </summary>
+		/// <param name='backup'>
+		/// Backup.
+		/// </param>
+		public static string Partial(string backup)
+		{
+			return Path.ChangeExtension(backup, Hash.partialExtension);
+		}
+
+		/// <summary>
+		/// Renames partial hash/checksum file after it is ready.
+		/// </summary>
+		/// <param name='backup'>
+		/// Backup.
+		/// </param>
+		public static void Ready(string backup)
+		{
+			File.Move(Partial(backup), Hashes(backup));
 		}
 	}
 }
