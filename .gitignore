@@ -1,0 +1,7 @@
+baco/[Bb]in/
+baco/[Oo]bj/
+baco/*.pidb
+*.userprefs
+*.suo
+*.csproj.user
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75C714F0-B6BA-4E6D-9394-26CA96598A87}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>baco</RootNamespace>
+    <AssemblyName>baco</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Posix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Attributes.cs" />
+    <Compile Include="Backup.cs" />
+    <Compile Include="Backups.cs" />
+    <Compile Include="Const.cs" />
+    <Compile Include="Content.cs" />
+    <Compile Include="Copy.cs" />
+    <Compile Include="Destination.cs" />
+    <Compile Include="Directories.cs" />
+    <Compile Include="Files.cs" />
+    <Compile Include="Filter.cs" />
+    <Compile Include="HardLink.cs" />
+    <Compile Include="Hash.cs" />
+    <Compile Include="Info.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="OS.cs" />
+    <Compile Include="PathEx.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Reduce.cs" />
+    <Compile Include="Reducing.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Source.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="TakeLastExtension.cs" />
+    <Compile Include="Walk.cs" />
+    <Compile Include="WithoutLastExtension.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
