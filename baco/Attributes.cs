@@ -27,9 +27,8 @@ namespace baco
 				{
 					copy();
 				}
-				catch (Exception e)
+				catch
 				{
-					Logger.Log(e, "Attributes.Copy()", source, destination);
 				}
 			}
 		}
