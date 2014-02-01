@@ -45,8 +45,6 @@
     <Compile Include="Content.cs" />
     <Compile Include="Copy.cs" />
     <Compile Include="Destination.cs" />
-    <Compile Include="Directories.cs" />
-    <Compile Include="Files.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="HardLink.cs" />
     <Compile Include="Hash.cs" />
@@ -60,7 +58,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Statistics.cs" />
-    <Compile Include="TakeLastExtension.cs" />
     <Compile Include="Walk.cs" />
     <Compile Include="WithoutLastExtension.cs" />
   </ItemGroup>
