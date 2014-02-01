@@ -9,7 +9,7 @@ namespace baco
 		{
 			Pattern = Path.GetFileName(source);
 			Directory = Path.GetFullPath(Path.GetDirectoryName(source));
-			Alias = PathEx.Unroot(string.IsNullOrEmpty(alias) ? Directory : alias);
+			Alias = PathEx.Unroot(alias ?? Directory);
 			Include = string.IsNullOrEmpty(include) ? null : new Regex(include);
 			Exclude = string.IsNullOrEmpty(exclude) ? null : new Regex(exclude);
 		}
