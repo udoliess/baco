@@ -35,10 +35,9 @@ namespace baco
 		/// </param>
 		public static string FromFile(string path)
 		{
-			using (var fileStream = File.OpenRead(path))
-			using (var bufferedStream = new BufferedStream(fileStream, Const.BufferSize))
+			using (var stream = new BufferedStream(File.OpenRead(path), Const.BufferSize))
 			using (var alg = CreateAlgorithm())
-				return AsString(alg.ComputeHash(bufferedStream));
+				return AsString(alg.ComputeHash(stream));
 		}
 
 		static string AsString(byte[] hash)

@@ -1,4 +1,7 @@
 using System;
+
+using System.Linq;
+
 using System.Globalization;
 using System.IO;
 
@@ -6,12 +9,14 @@ namespace baco
 {
 	public static class Content
 	{
+		static byte[][] buffers = Enumerable. Repeat(0, 4).Select(x => new byte[Const.BufferSize]).ToArray();
+
 		public static void Copy(string pathSrc, string pathDst)
 		{
 			try
 			{
-				var bufferRead = new byte[Const.BufferSize];
-				var bufferWrite = new byte[Const.BufferSize];
+				var bufferRead = buffers[0];
+				var bufferWrite = buffers[1];
 				var len = 0;
 				using (var streamSource = File.OpenRead(pathSrc))
 				using (var streamDestination = File.OpenWrite(pathDst))
@@ -45,10 +50,10 @@ namespace baco
 			{
 				if (new FileInfo(pathA).Length != new FileInfo(pathB).Length)
 					return false;
-				var bufferReadA = new byte[Const.BufferSize];
-				var bufferReadB = new byte[Const.BufferSize];
-				var bufferCompA = new byte[Const.BufferSize];
-				var bufferCompB = new byte[Const.BufferSize];
+				var bufferReadA = buffers[0];
+				var bufferReadB = buffers[1];
+				var bufferCompA = buffers[2];
+				var bufferCompB = buffers[3];
 				var len = 0;
 				using (var streamA = File.OpenRead(pathA))
 				using (var streamB = File.OpenRead(pathB))
