@@ -134,12 +134,12 @@ namespace baco
 		}
 
 		/// <summary>
-		/// Renames partial hash/checksum file after it is ready.
+		/// Renames partial hash/checksum file after it is done.
 		/// </summary>
 		/// <param name='backup'>
 		/// Backup.
 		/// </param>
-		public static void Ready(string backup)
+		public static void Done(string backup)
 		{
 			File.Move(Partial(backup), Hashes(backup));
 		}

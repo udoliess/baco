@@ -9,57 +9,46 @@ namespace baco
 	{
 		public static void Do(string source)
 		{
-			// TODO: search for *.part files, delete these backups and restart from that point
 			var catalog = new Dictionary<string, string>();
-			var done = new Dictionary<string, object>();
-			var old = Backups.Old(Destination.Path).OrderBy(x => x).ToList();
-			var last = old.LastOrDefault();
-			foreach (var o in old)
-			{
-				var h = Hash.Hashes(Path.Combine(Destination.Path, o));
-				if (File.Exists(h))
-					Hash.ReadHashes(
-						h,
-						(o != last) ?
-						(Action<string, string>)((k, v) => catalog[k] = Path.Combine(Destination.Path, v)) :
-						(k, v) =>
-							{
-								var p = Path.Combine(Destination.Path, v);
-								catalog[k] = p;
-								done[p] = null;
-							}
-					);
-			}
-			foreach (var s in Backups.Old(source).Where(x => string.CompareOrdinal(x, last) >= 0).OrderBy(x => x))
+			var last = default(string);
+			foreach (var s in Backups.Old(source).OrderBy(x => x))
 			{
 				var src = Path.Combine(source, s);
 				var dst = Path.Combine(Destination.Path, s);
-				using (var hashes = Hash.CreateHashes(Hash.Partial(dst)))
+				var h = Hash.Hashes(dst);
+				var p = Hash.Partial(dst);
+				if(Directory.Exists(dst) && File.Exists(h) && !File.Exists(p))
+					Hash.ReadHashes(h, (k, v) => catalog[k] = Path.Combine(Destination.Path, v));
+				else
 				{
-					Walk.Deep(
-						src,
-						null,
-						null,
-						null,
-						dir =>
-						{
-							try
+					if(Directory.Exists(dst))
+						Directory.Delete(dst, true);
+					File.Delete(h);
+					File.Delete(p);
+					using (var hashes = Hash.CreateHashes(p))
+					{
+						Walk.Deep(
+							src,
+							null,
+							null,
+							null,
+							dir =>
 							{
-								Directory.CreateDirectory(Path.Combine(Destination.Path, s, dir));
-							}
-							catch (Exception e)
-							{
-								Logger.Log(e, "HandleDirectory()", dir);
-							}
-						},
-						file =>
-						{
-							try
-							{
-								var sourceFile = Path.Combine(source, s, file);
-								var destinationFile = Path.Combine(Destination.Path, s, file);
-								if (!done.ContainsKey(destinationFile))
+								try
 								{
+									Directory.CreateDirectory(Path.Combine(Destination.Path, s, dir));
+								}
+								catch (Exception e)
+								{
+									Logger.Log(e, "HandleDirectory()", dir);
+								}
+							},
+							file =>
+							{
+								try
+								{
+									var sourceFile = Path.Combine(source, s, file);
+									var destinationFile = Path.Combine(Destination.Path, s, file);
 									File.Delete(destinationFile);
 									var link = false;
 									var hash = Hash.FromFile(sourceFile);
@@ -88,16 +77,15 @@ namespace baco
 									catalog[hash] = destinationFile;
 									Hash.AppendHash(hashes, hash, Path.Combine(s, file));
 								}
+								catch (Exception e)
+								{
+									Logger.Log(e, "HandleFile()", file);
+								}
 							}
-							catch (Exception e)
-							{
-								Logger.Log(e, "HandleFile()", file);
-							}
-						}
-					);
+						);
+					}
+					Hash.Done(dst);
 				}
-				Hash.Ready(dst);
-				done.Clear();
 				last = s;
 			}
 		}

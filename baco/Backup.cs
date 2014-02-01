@@ -12,16 +12,16 @@ namespace baco
 		{
 			var catalog = new Dictionary<string, string>();
 			var last = default(string);
+			var stamp = Statistics.Start.ToString(Const.StampFormat, CultureInfo.InvariantCulture);
 			foreach (var l in Backups.Old(Destination.Path).OrderBy(x => x))
 			{
+				if (stamp == l)
+					throw new Exception(string.Format(CultureInfo.InvariantCulture, "backup {0} already exits", stamp));
 				var h = Hash.Hashes(Path.Combine(Destination.Path, l));
 				if (File.Exists(h))
 					Hash.ReadHashes(h, (k, v) => catalog[k] = Path.Combine(Destination.Path, v));
 				last = l;
 			}
-			var stamp = Statistics.Start.ToString(Const.StampFormat, CultureInfo.InvariantCulture);
-			if (stamp == last)
-				throw new Exception(string.Format(CultureInfo.InvariantCulture, "backup {0} already exits", last));
 			Console.WriteLine("create: " + stamp);
 			var backup = Path.Combine(Destination.Path, stamp);
 			using (var hashes = Hash.CreateHashes(Hash.Partial(backup)))
@@ -82,7 +82,7 @@ namespace baco
 					);
 				}
 			}
-			Hash.Ready(backup);
+			Hash.Done(backup);
 		}
 	}
 }
