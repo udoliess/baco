@@ -20,8 +20,10 @@ namespace baco
 			foreach (var fsi in new DirectoryInfo(Path.Combine(path, relative)).EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
 			{
 				if ((fsi.Attributes & FileAttributes.Directory) == 0)
+				{
 					if (Filter.Where(fsi.FullName, include, exclude))
 						handleFile(Path.Combine(relative, fsi.Name));
+				}
 				else
 				{
 					var s = Path.Combine(fsi.FullName, "*");
