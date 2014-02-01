@@ -8,7 +8,7 @@ namespace baco
 	public static class Backups
 	{
 
-		static Regex filter = new Regex("^[0-9]{2}[01][0-9][0-3][0-9]_[0-2][0-9][0-5][0-9]$");
+		static Regex filter = new Regex(@"^\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])_([01]\d|2[0-3])[0-5]\d$");
 
 		/// <summary>
 		/// Old backups in the specified path. Only timestamp strings are returned.
