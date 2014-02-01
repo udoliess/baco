@@ -18,7 +18,11 @@ namespace baco
 		/// </param>
 		public static IEnumerable<string> Old(string path)
 		{
-			return Directory.EnumerateDirectories(path, "??????_????").Select(x => Path.GetFileName(x)).Where(x => filter.IsMatch(x));
+			return new DirectoryInfo(path).
+				EnumerateFileSystemInfos("??????_????", SearchOption.TopDirectoryOnly).
+				Where(fsi => (fsi.Attributes & FileAttributes.Directory) == 0).
+				Select(fsi => fsi.Name).
+				Where(n => filter.IsMatch(n));
 		}
 	}
 }
