@@ -90,6 +90,7 @@ Coping of backups to new location can take very long but you can break this proc
 
 linux command example to create checksum file: find 140101_0000/ -type f -exec sha1sum -b {} + | gzip -c > 140101_0000.sha1.gz
 linux command example to check files by checksum file: gzip -dc 140101_0000.sha1.gz | sha1sum -c --quiet --strict
+linux command example to check files by all checksum files: gzip -dc ??????_????.sha1.gz | sha1sum -c --quiet --strict
 ";
 
 	}
