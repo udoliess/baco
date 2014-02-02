@@ -25,10 +25,13 @@ namespace baco
 						Directory.Delete(dst, true);
 					File.Delete(h);
 					File.Delete(p);
-					var check = new Dictionary<string, string>();
+					var check = default(Dictionary<string, string>);
 					var f = Hash.Hashes(src);
 					if (File.Exists(f))
+					{
+						check = new Dictionary<string, string>();
 						Hash.ReadHashes(f, (k, v) => check[v] = k);
+					}
 					using (var hashes = Hash.CreateHashes(p))
 					{
 						Walk.Deep(
@@ -56,9 +59,21 @@ namespace baco
 									File.Delete(destinationFile);
 									var link = false;
 									var hash = Hash.FromFile(sourceFile);
-									string chk;
-									if (check.TryGetValue(Path.Combine(s, file), out chk) && hash != chk)
-										Logger.Log("warning: old file corrupt", Path.GetFullPath(sourceFile));
+									if (check != null)
+									{
+										string chk;
+										var key = Path.Combine(s, file);
+										if (check.TryGetValue(key, out chk))
+										{
+											if (hash != chk)
+												Logger.Log("warning: corrupt file", Path.GetFullPath(sourceFile));
+											check.Remove(key);
+										}
+										else
+										{
+											Logger.Log("warning: no checksum found for file", Path.GetFullPath(sourceFile));
+										}
+									}
 									string cat;
 									if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat))
 										link = HardLink.Create(cat, destinationFile);
@@ -92,6 +107,9 @@ namespace baco
 						);
 					}
 					Hash.Done(dst);
+					if (check != null)
+						foreach (var kvp in check)
+							Logger.Log("warning: file had checksum but was not found on disk", Path.GetFullPath(kvp.Key));
 				}
 				last = s;
 			}
