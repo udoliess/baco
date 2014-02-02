@@ -15,7 +15,7 @@ namespace baco
 		static long copyBytes;
 		static long linkCount;
 		static long linkBytes;
-		static long exceptionCount;
+		static long errorCount;
 
 		static Statistics()
 		{
@@ -64,12 +64,12 @@ namespace baco
 
 		public static long LinkBytes { get { return linkBytes; } }
 
-		public static void IncException()
+		public static void IncError()
 		{
-			exceptionCount++;
+			errorCount++;
 		}
 
-		public static long ExceptionCount { get { return exceptionCount; } }
+		public static long ErrorCount { get { return errorCount; } }
 	}
 }
 

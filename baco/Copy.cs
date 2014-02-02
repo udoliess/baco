@@ -25,6 +25,10 @@ namespace baco
 						Directory.Delete(dst, true);
 					File.Delete(h);
 					File.Delete(p);
+					var check = new Dictionary<string, string>();
+					var f = Hash.Hashes(src);
+					if (File.Exists(f))
+						Hash.ReadHashes(f, (k, v) => check[v] = k);
 					using (var hashes = Hash.CreateHashes(p))
 					{
 						Walk.Deep(
@@ -40,7 +44,7 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e, "HandleDirectory()", dir);
+									Logger.Log(e.Message, "HandleDirectory()", dir);
 								}
 							},
 							file =>
@@ -52,6 +56,9 @@ namespace baco
 									File.Delete(destinationFile);
 									var link = false;
 									var hash = Hash.FromFile(sourceFile);
+									string chk;
+									if (check.TryGetValue(Path.Combine(s, file), out chk) && hash != chk)
+										Logger.Log("warning: old file corrupt ", Path.GetFullPath(sourceFile));
 									string cat;
 									if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat))
 										link = HardLink.Create(cat, destinationFile);
@@ -79,7 +86,7 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e, "HandleFile()", file);
+									Logger.Log(e.Message, "HandleFile()", file);
 								}
 							}
 						);

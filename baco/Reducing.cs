@@ -45,7 +45,7 @@ namespace baco
 					}
 					catch (Exception e)
 					{
-						Logger.Log(e, "Directory.Delete()", dir);
+						Logger.Log(e.Message, "Directory.Delete()", dir);
 					}
 					var file = Hash.Hashes(dir);
 					try
@@ -61,7 +61,7 @@ namespace baco
 					}
 					catch (Exception e)
 					{
-						Logger.Log(e, "File.Delete()", file);
+						Logger.Log(e.Message, "File.Delete()", file);
 					}
 					Console.WriteLine("delete: {0}", curDir);
 					Statistics.IncDelete();

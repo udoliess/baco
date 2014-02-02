@@ -46,7 +46,7 @@ namespace baco
 			}
 			catch (Exception e)
 			{
-				Logger.Log(e);
+				Logger.Log(e.Message);
 			}
 
 			if (!help)
@@ -58,14 +58,14 @@ namespace baco
 				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) linked.", Statistics.LinkBytes, Statistics.LinkCount));
 				var elapsed = Statistics.Elapsed;
 				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) backuped in {2} ({3:N0} bytes/s).", Statistics.CopyBytes + Statistics.LinkBytes, Statistics.CopyCount + Statistics.LinkCount, TimeSpan.FromSeconds(Math.Ceiling(elapsed.TotalSeconds)), (Statistics.CopyBytes + Statistics.LinkBytes) / elapsed.TotalSeconds));
-				if (Statistics.ExceptionCount == 0)
+				if (Statistics.ErrorCount == 0)
 					Console.WriteLine("All OK.");
 				else
-					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} error(s)! See file baco.log for details.", Statistics.ExceptionCount));
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} error(s)! See file baco.log for details.", Statistics.ErrorCount));
 			}
 
 			Console.WriteLine();
-			return Statistics.ExceptionCount > 0 ? 1 : 0;
+			return Statistics.ErrorCount > 0 ? 1 : 0;
 		}
 
 		static void Help()

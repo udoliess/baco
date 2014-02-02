@@ -26,7 +26,7 @@ namespace baco
 			}
 			catch (Exception e)
 			{
-				Logger.Log(e, "CreateHardLink()", existingFile, newFile);
+				Logger.Log(e.Message, "CreateHardLink()", existingFile, newFile);
 			}
 			return false;
 		}
@@ -39,7 +39,7 @@ namespace baco
 			}
 			catch (Exception e)
 			{
-				Logger.Log(e, "Syscall.link()", existingFile, newFile);
+				Logger.Log(e.Message, "Syscall.link()", existingFile, newFile);
 			}
 			return false;
 		}
