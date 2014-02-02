@@ -24,6 +24,7 @@ namespace baco
 			}
 			Console.WriteLine("create: " + stamp);
 			var backup = Path.Combine(Destination.Path, stamp);
+			Directory.CreateDirectory(backup);
 			using (var hashes = Hash.CreateHashes(Hash.Partial(backup)))
 			{
 				foreach (var source in sources)

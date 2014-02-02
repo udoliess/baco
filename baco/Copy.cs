@@ -25,6 +25,8 @@ namespace baco
 						Directory.Delete(dst, true);
 					File.Delete(h);
 					File.Delete(p);
+					Console.WriteLine("create: " + s);
+					Directory.CreateDirectory(dst);
 					var check = default(Dictionary<string, string>);
 					var f = Hash.Hashes(src);
 					if (File.Exists(f))
