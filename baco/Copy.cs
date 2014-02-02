@@ -58,7 +58,7 @@ namespace baco
 									var hash = Hash.FromFile(sourceFile);
 									string chk;
 									if (check.TryGetValue(Path.Combine(s, file), out chk) && hash != chk)
-										Logger.Log("warning: old file corrupt ", Path.GetFullPath(sourceFile));
+										Logger.Log("warning: old file corrupt", Path.GetFullPath(sourceFile));
 									string cat;
 									if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat))
 										link = HardLink.Create(cat, destinationFile);
