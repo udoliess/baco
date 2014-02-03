@@ -49,7 +49,7 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.Message, "HandleDirectory()", dir);
+									Logger.Log(e.Message, "processing directory", dir);
 								}
 							},
 							file =>
@@ -73,7 +73,7 @@ namespace baco
 										}
 										else
 										{
-											Logger.Log("warning: no checksum found for file", Path.GetFullPath(sourceFile));
+											Logger.Log("warning: file without checksum", Path.GetFullPath(sourceFile));
 										}
 									}
 									string cat;
@@ -103,7 +103,7 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.Message, "HandleFile()", file);
+									Logger.Log(e.Message, "processing file", file);
 								}
 							}
 						);
@@ -111,7 +111,7 @@ namespace baco
 					Hash.Done(dst);
 					if (check != null)
 						foreach (var kvp in check)
-							Logger.Log("warning: file had checksum but was not found on disk", Path.GetFullPath(kvp.Key));
+							Logger.Log("warning: checksum without file", Path.GetFullPath(kvp.Key));
 				}
 				last = s;
 			}

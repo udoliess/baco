@@ -41,7 +41,7 @@ namespace baco
 								Directory.CreateDirectory(Path.Combine(Destination.Path, stamp, source.Alias, dir));
 							} catch (Exception e)
 							{
-								Logger.Log(e.Message, "HandleDirectory()", dir);
+								Logger.Log(e.Message, "processing directory", dir);
 							}
 						},
 						file =>
@@ -77,7 +77,7 @@ namespace baco
 								Hash.AppendHash(hashes, hash, Path.Combine(stamp, source.Alias, file));
 							} catch (Exception e)
 							{
-								Logger.Log(e.Message, "HandleFile()", file);
+								Logger.Log(e.Message, "processing file", file);
 							}
 						}
 					);
