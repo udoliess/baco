@@ -25,10 +25,13 @@ namespace baco
 						break;
 
 					case 1:
-						if (Directory.Exists(args[0]))
-							Copy(args[0]);
+						if (args[0] == "?")
+							Help();
 						else
-							BackupReduce(args[0]);
+							if (Directory.Exists(args[0]))
+								Copy(args[0]);
+							else
+								BackupReduce(args[0]);
 						break;
 
 					case 2:

@@ -23,7 +23,7 @@ Foundation, either version 3 of the License, or any later version.
 ";
 
 		const string help = @"
-usage to show this help (there must not be a file ""baco.xml"" in current directory): baco.exe
+usage to show this help: baco.exe ?
 usage to backup: baco.exe settings-file [destination]
 usage to backup with settings in default file ""baco.xml"" in current directory: baco.exe
 usage to copy old backups with hardlinks: baco.exe old-destination [new-destination]
