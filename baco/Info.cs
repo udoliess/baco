@@ -28,7 +28,7 @@ usage to backup: baco.exe settings-file [destination]
 usage to backup with settings in default file ""baco.xml"" in current directory: baco.exe
 usage to copy old backups with hardlinks: baco.exe old-destination [new-destination]
 
-priority of destination settings: command line parameter > settings file > current directory
+priority of destination settings: command-line-parameter > settings-file > current-directory
 
 settings-file:
 	Source pathes are
@@ -83,10 +83,10 @@ settings-file example:
 		<age>730</age>
 		<span>30</span>
 	</reduce>
-	<destination>c:\BackupDestination\</destination>
+	<destination>e:\BackupDestination\</destination>
 </baco>
 
-Coping of backups to new location can take very long but you can break this process and start it again later with same parameters - it will smoothly continue.
+Copying of all backups from an old backup destination to a new backup destination can take very long. You can break this process and start it with same parameters later again - it will smoothly continue.
 
 linux command example to create checksum file: find 140101_0000/ -type f -exec sha1sum -b {} + | gzip -c > 140101_0000.sha1.gz
 linux command example to check files by checksum file: gzip -dc 140101_0000.sha1.gz | sha1sum -c --quiet --strict
