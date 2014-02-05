@@ -14,6 +14,7 @@ baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.Ge
 Runs with Mono / .NET 4.0, under Linux/Unix and Windows.
 Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)
 www.udol.de/baco
+usage to show help: baco.exe ?
 
 This program comes with ABSOLUTELY NO WARRANTY.
 
