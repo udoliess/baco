@@ -12,17 +12,24 @@ namespace baco
 			Directory.CreateDirectory(Destination.Path);
 			var catalog = new Dictionary<string, string>();
 			var last = default(string);
+			foreach (var o in Backups.Old(Destination.Path).OrderBy(x => x))
+			{
+				var dst = Path.Combine(Destination.Path, o);
+				var h = Hash.Hashes(dst);
+				var p = Hash.Partial(dst);
+				if (Directory.Exists(dst) && File.Exists(h) && !File.Exists(p))
+					Hash.ReadHashes(h, (k, v) => catalog[k] = Path.Combine(Destination.Path, v));
+				last = o;
+			}
 			foreach (var s in Backups.Old(source).OrderBy(x => x))
 			{
 				var src = Path.Combine(source, s);
 				var dst = Path.Combine(Destination.Path, s);
 				var h = Hash.Hashes(dst);
 				var p = Hash.Partial(dst);
-				if(Directory.Exists(dst) && File.Exists(h) && !File.Exists(p))
-					Hash.ReadHashes(h, (k, v) => catalog[k] = Path.Combine(Destination.Path, v));
-				else
+				if (!(Directory.Exists(dst) && File.Exists(h) && !File.Exists(p)))
 				{
-					if(Directory.Exists(dst))
+					if (Directory.Exists(dst))
 						Directory.Delete(dst, true);
 					File.Delete(h);
 					File.Delete(p);
