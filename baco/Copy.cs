@@ -9,6 +9,7 @@ namespace baco
 	{
 		public static void Do(string source)
 		{
+			Directory.CreateDirectory(Destination.Path);
 			var catalog = new Dictionary<string, string>();
 			var last = default(string);
 			foreach (var s in Backups.Old(source).OrderBy(x => x))
