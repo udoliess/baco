@@ -27,14 +27,13 @@ namespace baco
 				var dst = Path.Combine(Destination.Path, s);
 				var h = Hash.Hashes(dst);
 				var p = Hash.Partial(dst);
-				if (!(Directory.Exists(dst) && File.Exists(h) && !File.Exists(p)))
+				if ((!Directory.Exists(dst) && !File.Exists(h) && !File.Exists(p)) ||
+					(!File.Exists(h) && File.Exists(p)))
 				{
 					if (Directory.Exists(dst))
 						Directory.Delete(dst, true);
 					File.Delete(h);
 					File.Delete(p);
-					Console.WriteLine("create: " + s);
-					Directory.CreateDirectory(dst);
 					var check = default(Dictionary<string, string>);
 					var f = Hash.Hashes(src);
 					if (File.Exists(f))
@@ -42,6 +41,8 @@ namespace baco
 						check = new Dictionary<string, string>();
 						Hash.ReadHashes(f, (k, v) => check[v] = k);
 					}
+					Console.WriteLine("create: " + s);
+					Directory.CreateDirectory(dst);
 					using (var hashes = Hash.CreateHashes(p))
 					{
 						Walk.Deep(
@@ -120,6 +121,10 @@ namespace baco
 					if (check != null)
 						foreach (var kvp in check)
 							Logger.Log("warning: checksum without file", Path.GetFullPath(kvp.Key));
+				}
+				else
+				{
+					Logger.Log("error: inconsistent destination", s);
 				}
 				last = s;
 			}
