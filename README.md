@@ -15,5 +15,5 @@ This program is free software: you can redistribute it and/or modify it under th
 see: LICENSE.txt
 
 ---
-Copyright (C) 2006..2014 Udo Liess
+Copyright (C) 2006...2014 Udo Liess
 
