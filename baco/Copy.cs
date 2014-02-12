@@ -91,7 +91,7 @@ namespace baco
 									if (!link && last != null)
 									{
 										var tandem = Path.Combine(Destination.Path, last, file);
-										if (File.Exists(tandem) && Content.Compare(sourceFile, tandem))
+										if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem))
 											link = HardLink.Create(tandem, destinationFile);
 									}
 									if (!link)
