@@ -1,0 +1,40 @@
+<baco>
+	<source>
+		<!-- copy all .jpg pictures in directory Pictures but no files in subdirectories -->
+		<path>d:\Pictures\*.jpg</path>
+	</source>
+	<source>
+		<!-- copy all files in Documents and below (recursive) but skip files ending with ".tmp", ".TmP", ".temp", ".teMp", ... -->
+		<path>c:\My Documents\</path>
+		<exclude>(?i)\.tmp$|\.temp$</exclude>
+	</source>
+	<source>
+		<!-- copy all files from this folder an below but store them by another name in backup -->
+		<path>c:\very long path would be too long in destination - so use a shorter alias\</path>
+		<alias>short\path</alias>
+	</source>
+	<reduce>
+		<!-- keep only hourly backups if they are older than 1 day -->
+		<age>1</age>
+		<span>1:00</span>
+	</reduce>
+	<reduce>
+		<age>7</age>
+		<span>12:00</span>
+	</reduce>
+	<reduce>
+		<!-- keep only daily backups if they are older than 30 days -->
+		<age>30</age>
+		<span>1</span>
+	</reduce>
+	<reduce>
+		<age>365</age>
+		<span>7</span>
+	</reduce>
+	<reduce>
+		<age>730</age>
+		<span>30</span>
+	</reduce>
+	<destination>e:\BackupDestination\</destination>
+</baco>
+
