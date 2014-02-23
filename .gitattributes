@@ -7,3 +7,6 @@
 *.xml text
 *.txt text
 
+example.xml text eol=crlf
+LICENSE.txt text eol=crlf
+README.md text eol=crlf
