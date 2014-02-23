@@ -94,6 +94,7 @@ namespace baco
 
 		static void WriteDestination()
 		{
+			Directory.CreateDirectory(Destination.Path);
 			Console.WriteLine("destination: " + Destination.Path);
 		}
 	}
