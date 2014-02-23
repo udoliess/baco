@@ -15,7 +15,6 @@ Additional to the backup folder baco creates a compressed checksum file
 identical files. Those checksum files can also be used to verify integrity of
 all backup files. To configure a set of files and folders, which should be in
 the backup, you create a simple XML file.  
-
 Run "baco.exe ?" or "mono baco.exe ?" for help.
 
 This program comes with ABSOLUTELY NO WARRANTY.
