@@ -48,7 +48,7 @@ namespace baco
 						includeNode != null ? includeNode.InnerText : null,
 						sourceNode.SelectNodes("take").Cast<XmlNode>().Select(node => node.InnerText),
 						excludeNode != null ? excludeNode.InnerText : null,
-						sourceNode.SelectNodes("ignore").Cast<XmlNode>().Select(node => node.InnerText))
+						sourceNode.SelectNodes("omit").Cast<XmlNode>().Select(node => node.InnerText))
 				);
 			}
 		}
