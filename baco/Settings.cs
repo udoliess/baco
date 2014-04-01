@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace baco
@@ -16,40 +17,37 @@ namespace baco
 		/// </param>
 		public Settings(string settings)
 		{
-			XmlDocument doc = new XmlDocument();
+			var doc = new XmlDocument();
 			doc.Load(settings);
-			XmlNode rootNode = doc.SelectSingleNode("baco");
+			var rootNode = doc.SelectSingleNode("baco");
 
 			if (!Destination.Set)
 			{
-				XmlNode destinationNode = rootNode.SelectSingleNode("destination");
+				var destinationNode = rootNode.SelectSingleNode("destination");
 				if (destinationNode != null)
 					Destination.Path = destinationNode.InnerText;
 			}
 
 			foreach (XmlNode reduceNode in rootNode.SelectNodes("reduce"))
-			{
-				XmlNode ageNode = reduceNode.SelectSingleNode("age");
-				XmlNode spanNode = reduceNode.SelectSingleNode("span");
 				reduces.Add(
 					new Reduce(
-						ageNode.InnerText,
-						spanNode.InnerText)
+						reduceNode.SelectSingleNode("age").InnerText,
+						reduceNode.SelectSingleNode("span").InnerText)
 				);
-			}
 			reduces.Sort();
 
 			foreach (XmlNode sourceNode in rootNode.SelectNodes("source"))
 			{
-				XmlNode aliasNode = sourceNode.SelectSingleNode("alias");
-				XmlNode includeNode = sourceNode.SelectSingleNode("include");
-				XmlNode excludeNode = sourceNode.SelectSingleNode("exclude");
+				var aliasNode = sourceNode.SelectSingleNode("alias");
+				var includeNode = sourceNode.SelectSingleNode("include");
+				var excludeNode = sourceNode.SelectSingleNode("exclude");
 				sources.Add(
 					new Source(
 						aliasNode != null ? aliasNode.InnerText : null,
 						sourceNode.SelectSingleNode("path").InnerText,
 						includeNode != null ? includeNode.InnerText : null,
-						excludeNode != null ? excludeNode.InnerText : null)
+						excludeNode != null ? excludeNode.InnerText : null,
+						sourceNode.SelectNodes("ignore").Cast<XmlNode>().Select(node => node.InnerText))
 				);
 			}
 		}
