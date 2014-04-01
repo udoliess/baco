@@ -46,6 +46,7 @@ namespace baco
 						aliasNode != null ? aliasNode.InnerText : null,
 						sourceNode.SelectSingleNode("path").InnerText,
 						includeNode != null ? includeNode.InnerText : null,
+						sourceNode.SelectNodes("take").Cast<XmlNode>().Select(node => node.InnerText),
 						excludeNode != null ? excludeNode.InnerText : null,
 						sourceNode.SelectNodes("ignore").Cast<XmlNode>().Select(node => node.InnerText))
 				);

@@ -7,15 +7,20 @@ namespace baco
 {
 	public class Source
 	{
-		public Source(string alias, string source, string include, string exclude, IEnumerable<string> ignores)
+		public Source(string alias, string source, string include, IEnumerable<string> takes, string exclude, IEnumerable<string> ignores)
 		{
 			Pattern = Path.GetFileName(source);
 			Directory = Path.GetFullPath(Path.GetDirectoryName(source));
 			Alias = PathEx.Unroot(alias ?? Directory);
-			Include = string.IsNullOrEmpty(include) ? null : new Regex(include);
-			var ign = string.Join("|", ignores.Select(x => "(^" + Regex.Escape(x).Replace(@"\*", ".*").Replace(@"\?", ".") + "$)"));
-			var ex = string.Join("|", new string[] { !string.IsNullOrEmpty(exclude) ? "(" + exclude + ")" : null, !string.IsNullOrEmpty(ign) ? "(?i:" + ign + ")" : null }.Where(x => !string.IsNullOrEmpty(x)));
-			Exclude = string.IsNullOrEmpty(ex) ? null : new Regex(ex);
+			Include = Combine(include, takes);
+			Exclude = Combine(exclude, ignores);
+		}
+
+		static Regex Combine(string direct, IEnumerable<string> wildcards)
+		{
+			var parts = string.Join("|", wildcards.Select(x => "(^" + Regex.Escape(x).Replace(@"\*", ".*").Replace(@"\?", ".") + "$)"));
+			var all = string.Join("|", new string[] { !string.IsNullOrEmpty(direct) ? "(" + direct + ")" : null, !string.IsNullOrEmpty(parts) ? "(?i:" + parts + ")" : null }.Where(x => !string.IsNullOrEmpty(x)));
+			return string.IsNullOrEmpty(all) ? null : new Regex(all);
 		}
 
 		public string Directory { get; private set; }
