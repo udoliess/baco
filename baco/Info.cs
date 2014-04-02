@@ -37,54 +37,113 @@ settings-file:
 		folders (ending with / or \) or
 		groups of files (with wildcards).
 	To include certain files or folders use one regular expression string per source.
+	Alternatively one or more case insensitive ""take"" entries with wildcards can be used.
 	To exclude certain files or folders use one regular expression string per source.
-		The include regular expression is processed first.
-		See .NET help: ""Regular Expression Language Elements"" or <http://www.google.com/search?q=.NET+Regular+Expression+Language+Elements>.
+	Alternatively one or more case insensitive ""omit"" entries with wildcards can be used.
+		The include and take expressions are processed first, then the exclude and omit expressions.
+		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <http://www.google.com/search?q=.NET+Regular+Expression+Language+Elements>.
 	Use alias if the resulting destination path is too long. (The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.)
 	In order to delete some old backups you can setup several reducing levels.
 		age: Age of backup as time span. Examples: ""3"" = 3 days, ""1.12:00"" = 1.5 days, ""2:30"" = 2.5 hours
-		span: Minimal time span between backups. Special values: ""0"" = disables deleting for this age, ""-1"" = negative span means that all backups of this age will be deleted
+		span: Minimal time span between backups. Special values: ""0"" = disables deleting for this age, ""-1"" = negative span means that all backups of this age will be deleted.
 	Destination in XML file is optional. It will be overwritten by optional second command line parameter. If none is given, current directory is used as destination.
 
 settings-file example:
 <baco>
+
+	<!-- Following 'source' entries are examples for Windows: -->
+	<!-- ==================================================== -->
+
+	<!-- Copy all .jpg pictures in directory Pictures but no files in subdirectories. -->
 	<source>
-		<!-- copy all .jpg pictures in directory Pictures but no files in subdirectories -->
 		<path>d:\Pictures\*.jpg</path>
 	</source>
+
+	<!-- Copy all files in 'My Documents' and below (recursive) but skip files ending with '.tmp', '.TmP', '.temp', '.teMp', ... -->
 	<source>
-		<!-- copy all files in Documents and below (recursive) but skip files ending with "".tmp"", "".TmP"", "".temp"", "".teMp"", ... -->
 		<path>c:\My Documents\</path>
+		<omit>*.tmp</omit>
+		<omit>*.temp</omit>
+	</source>
+
+	<!-- Copy all files in 'Documents' and below (recursive). Define the same exclude rules as above with one regular expression. -->
+	<source>
+		<path>c:\Documents\</path>
 		<exclude>(?i)\.tmp$|\.temp$</exclude>
 	</source>
+
+	<!-- Copy all files from this folder and below but backup them by another name. -->
 	<source>
-		<!-- copy all files from this folder an below but store them by another name in backup -->
 		<path>c:\very long path would be too long in destination - so use a shorter alias\</path>
 		<alias>short\path</alias>
 	</source>
+
+
+	<!-- Following 'source' entries are examples for Linux: -->
+	<!-- ================================================== -->
+
+	<!-- Backup the user directory but ignore hidden files and folders, 'lost+found' directory, 'Desktop' and 'Downloads'. -->
+	<source>
+		<path>/home/user/</path>
+		<omit>/home/user/.*</omit>
+		<omit>/home/user/lost+found/</omit>
+		<omit>/home/user/Desktop/</omit>
+		<omit>/home/user/Downloads/</omit>
+	</source>
+
+	<!-- Backup the Firefox bookmarks database file. Only all directories below '.mozilla' and the files named 'places.sqlite' are taken. -->
+	<source>
+		<path>/home/user/.mozilla/</path>
+		<take>/home/user/.mozilla/*/</take>
+		<take>/home/user/.mozilla/*/places.sqlite</take>
+	</source>
+
+	<source>
+		<path>/home/user/.thunderbird/</path>
+	</source>
+
+	<source>
+		<path>/home/user/.gnupg/</path>
+	</source>
+
+
+	<!-- The following 'reduce' entries define rules for automatic deletion of old backups. -->
+	<!-- ================================================================================== -->
+
+	<!-- Backups will be deleted when they are older than 1 day and time differences between two backups are less than 1 hour. -->
 	<reduce>
-		<!-- keep only hourly backups if they are older than 1 day -->
 		<age>1</age>
 		<span>1:00</span>
 	</reduce>
+
 	<reduce>
 		<age>7</age>
 		<span>12:00</span>
 	</reduce>
+
+	<!-- Thin out backups to daily backups when they are older then 30 days. -->
 	<reduce>
-		<!-- keep only daily backups if they are older than 30 days -->
 		<age>30</age>
 		<span>1</span>
 	</reduce>
+
 	<reduce>
 		<age>365</age>
 		<span>7</span>
 	</reduce>
+
 	<reduce>
 		<age>730</age>
 		<span>30</span>
 	</reduce>
+
+
+	<!-- Additional settings: -->
+	<!-- ==================== -->
+
+	<!-- Setting a destination directory here is optional. You can overwrite this setting in command line. -->
 	<destination>e:\BackupDestination\</destination>
+
 </baco>
 
 Copying of all backups from an old backup destination to a new backup destination can take very long. You can break this process and start it with same parameters later again - it will smoothly continue.
