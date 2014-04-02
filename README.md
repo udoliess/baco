@@ -15,7 +15,7 @@ Additional to the backup folder baco creates a compressed checksum file
 identical files. Those checksum files can also be used to verify integrity of
 all backup files. To configure a set of files and folders, which should be in
 the backup, you create a simple XML file.  
-Run "baco.exe ?" or "mono baco.exe ?" for help.
+Run `baco.exe ?` or `mono baco.exe ?` for help.
 
 This program comes with ABSOLUTELY NO WARRANTY.
 
@@ -24,7 +24,7 @@ Prerequisites
 baco needs Mono or .NET Framework 4.0 (or higher version) to be installed.
 For Windows see <http://www.microsoft.com/netframework>.
 For Ubuntu the needed Mono components can be installed with following command:
-"sudo apt-get install mono-runtime libmono-system-core4.0-cil"
+`sudo apt-get install mono-runtime libmono-system-core4.0-cil`
 
 License
 -------
