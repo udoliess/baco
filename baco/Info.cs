@@ -13,7 +13,8 @@ namespace baco
 baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.GetAssemblyName(Assembly.GetCallingAssembly().Location).Version.ToString() + @"
 Runs with Mono / .NET 4.0, under Linux/Unix and Windows.
 Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)
-www.udol.de/baco
+<http://udol.de/baco>
+<https://github.com/udoliess/baco>
 usage to show help: baco.exe ?
 
 This program comes with ABSOLUTELY NO WARRANTY.
@@ -41,7 +42,7 @@ settings-file:
 	To exclude certain files or folders use one regular expression string per source.
 	Alternatively one or more case insensitive ""omit"" entries with wildcards can be used.
 		The include and take expressions are processed first, then the exclude and omit expressions.
-		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <http://www.google.com/search?q=.NET+Regular+Expression+Language+Elements>.
+		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <https://www.google.com/search?q=.NET+Regular+Expression+Language+Elements>.
 	Use alias if the resulting destination path is too long. (The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.)
 	In order to delete some old backups you can setup several reducing levels.
 		age: Age of backup as time span. Examples: ""3"" = 3 days, ""1.12:00"" = 1.5 days, ""2:30"" = 2.5 hours

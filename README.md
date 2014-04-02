@@ -22,7 +22,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 Prerequisites
 -------------
 baco needs Mono or .NET Framework 4.0 (or higher version) to be installed.  
-For Windows see <http://www.microsoft.com/netframework>.  
+For Windows see <https://www.microsoft.com/netframework>.  
 For Ubuntu the needed Mono components can be installed with following command:
 `sudo apt-get install mono-runtime libmono-system-core4.0-cil`
 
@@ -35,5 +35,7 @@ Foundation, either version 3 of the License, or any later version.
 see: LICENSE.txt
 
 ---
+<http://udol.de/baco>
+<https://github.com/udoliess/baco>
 Copyright (C) 2006...2014 Udo Liess
 
