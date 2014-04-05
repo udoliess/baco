@@ -3,7 +3,7 @@
 	<!-- Following 'source' entries are examples for Windows: -->
 	<!-- ==================================================== -->
 
-	<!-- Copy all .jpg pictures in directory Pictures but no files in subdirectories. -->
+	<!-- Copy all .jpg pictures in directory 'Pictures' but no files in subdirectories. -->
 	<source>
 		<path>d:\Pictures\*.jpg</path>
 	</source>
@@ -18,7 +18,7 @@
 	<!-- Copy all files in 'Documents' and below (recursive). Define the same exclude rules as above with one regular expression. -->
 	<source>
 		<path>c:\Documents\</path>
-		<exclude>(?i)\.tmp$|\.temp$</exclude>
+		<exclude>(?i)\.te?mp$</exclude>
 	</source>
 
 	<!-- Copy all files from this folder and below but backup them by another name. -->
@@ -31,7 +31,7 @@
 	<!-- Following 'source' entries are examples for Linux: -->
 	<!-- ================================================== -->
 
-	<!-- Backup the user directory but ignore hidden files and folders, 'lost+found' directory, 'Desktop' and 'Downloads'. -->
+	<!-- Backup the user directory but ignore hidden files and folders (starting with '.'), 'lost+found' directory, 'Desktop' and 'Downloads'. -->
 	<source>
 		<path>/home/user/</path>
 		<omit>/home/user/.*</omit>
@@ -40,7 +40,7 @@
 		<omit>/home/user/Downloads/</omit>
 	</source>
 
-	<!-- Backup the Firefox bookmarks database file. Only all directories below '.mozilla' and the files named 'places.sqlite' are taken. -->
+	<!-- Backup the Firefox bookmarks database file. Only the directories below '.mozilla' and the files named 'places.sqlite' are taken, other files are skipped. -->
 	<source>
 		<path>/home/user/.mozilla/</path>
 		<take>/home/user/.mozilla/*/</take>

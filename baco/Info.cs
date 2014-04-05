@@ -13,8 +13,8 @@ namespace baco
 baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.GetAssemblyName(Assembly.GetCallingAssembly().Location).Version.ToString() + @"
 Runs with Mono / .NET 4.0, under Linux/Unix and Windows.
 Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)
-<http://udol.de/baco>
-<https://github.com/udoliess/baco>
+<udol.de/baco>
+<github.com/udoliess/baco>
 usage to show help: baco.exe ?
 
 This program comes with ABSOLUTELY NO WARRANTY.
@@ -38,11 +38,11 @@ settings-file:
 		folders (ending with / or \) or
 		groups of files (with wildcards).
 	To include certain files or folders use one regular expression string per source.
-	Alternatively one or more case insensitive ""take"" entries with wildcards can be used.
+	Alternatively one or more case insensitive ""take"" entries with wildcards (""*"" and ""?"") can be used.
 	To exclude certain files or folders use one regular expression string per source.
-	Alternatively one or more case insensitive ""omit"" entries with wildcards can be used.
+	Alternatively one or more case insensitive ""omit"" entries with wildcards (""*"" and ""?"") can be used.
 		The include and take expressions are processed first, then the exclude and omit expressions.
-		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <https://www.google.com/search?q=.NET+Regular+Expression+Language+Elements>.
+		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <google.com/search?q=.NET+Regular+Expression+Language+Elements>.
 	Use alias if the resulting destination path is too long. (The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.)
 	In order to delete some old backups you can setup several reducing levels.
 		age: Age of backup as time span. Examples: ""3"" = 3 days, ""1.12:00"" = 1.5 days, ""2:30"" = 2.5 hours
@@ -55,7 +55,7 @@ settings-file example:
 	<!-- Following 'source' entries are examples for Windows: -->
 	<!-- ==================================================== -->
 
-	<!-- Copy all .jpg pictures in directory Pictures but no files in subdirectories. -->
+	<!-- Copy all .jpg pictures in directory 'Pictures' but no files in subdirectories. -->
 	<source>
 		<path>d:\Pictures\*.jpg</path>
 	</source>
@@ -70,7 +70,7 @@ settings-file example:
 	<!-- Copy all files in 'Documents' and below (recursive). Define the same exclude rules as above with one regular expression. -->
 	<source>
 		<path>c:\Documents\</path>
-		<exclude>(?i)\.tmp$|\.temp$</exclude>
+		<exclude>(?i)\.te?mp$</exclude>
 	</source>
 
 	<!-- Copy all files from this folder and below but backup them by another name. -->
@@ -83,7 +83,7 @@ settings-file example:
 	<!-- Following 'source' entries are examples for Linux: -->
 	<!-- ================================================== -->
 
-	<!-- Backup the user directory but ignore hidden files and folders, 'lost+found' directory, 'Desktop' and 'Downloads'. -->
+	<!-- Backup the user directory but ignore hidden files and folders (starting with '.'), 'lost+found' directory, 'Desktop' and 'Downloads'. -->
 	<source>
 		<path>/home/user/</path>
 		<omit>/home/user/.*</omit>
@@ -92,7 +92,7 @@ settings-file example:
 		<omit>/home/user/Downloads/</omit>
 	</source>
 
-	<!-- Backup the Firefox bookmarks database file. Only all directories below '.mozilla' and the files named 'places.sqlite' are taken. -->
+	<!-- Backup the Firefox bookmarks database file. Only the directories below '.mozilla' and the files named 'places.sqlite' are taken, other files are skipped. -->
 	<source>
 		<path>/home/user/.mozilla/</path>
 		<take>/home/user/.mozilla/*/</take>
