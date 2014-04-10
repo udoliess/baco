@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace baco
@@ -5,9 +7,25 @@ namespace baco
 	public static class Info
 	{
 
-		public static string About { get { return about; } }
+		public static void WriteAbout()
+		{
+			WriteLines(about);
+		}
 
-		public static string Help { get { return help; } }
+		public static void WriteHelp()
+		{
+			WriteLines(help);
+		}
+
+		static void WriteLines(string text)
+		{
+			using (var reader = new StringReader(text))
+			{
+				string line;
+				while ((line = reader.ReadLine()) != null)
+					Console.WriteLine(line);
+			}
+		}
 
 		readonly static string about = @"
 baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.GetAssemblyName(Assembly.GetCallingAssembly().Location).Version.ToString() + @"

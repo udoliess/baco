@@ -14,7 +14,7 @@ namespace baco
 			{
 				Statistics.Create();
 				var useDefaultSettings = File.Exists(Const.DefaultSettings) && new FileInfo(Const.DefaultSettings).Length > 0;
-				Console.WriteLine(Info.About);
+				Info.WriteAbout();
 				switch (args.Length)
 				{
 					case 0:
@@ -73,7 +73,7 @@ namespace baco
 
 		static void Help()
 		{
-			Console.WriteLine(Info.Help);
+			Info.WriteHelp();
 			help = true;
 		}
 
