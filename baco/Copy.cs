@@ -58,14 +58,14 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.Message, "processing directory", dir);
+									Logger.Log(e.Message, "processing directory", Path.Combine(src, dir));
 								}
 							},
 							file =>
 							{
+								var sourceFile = Path.Combine(source, s, file);
 								try
 								{
-									var sourceFile = Path.Combine(source, s, file);
 									var destinationFile = Path.Combine(Destination.Path, s, file);
 									File.Delete(destinationFile);
 									var link = false;
@@ -112,7 +112,7 @@ namespace baco
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.Message, "processing file", file);
+									Logger.Log(e.Message, "processing file", sourceFile);
 								}
 							}
 						);
