@@ -17,32 +17,45 @@ namespace baco
 
 		static void Go(string path, string relative, Regex include, Regex exclude, Action<string> handleDir, Action<string> handleFile)
 		{
-			foreach (var fsi in new DirectoryInfo(Path.Combine(path, relative)).EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
+			try
 			{
-				if ((fsi.Attributes & FileAttributes.Directory) == 0)
+				foreach (var fsi in new DirectoryInfo(Path.Combine(path, relative)).EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
 				{
-					if (Filter.Where(fsi.FullName, include, exclude))
-						handleFile(Path.Combine(relative, fsi.Name));
-				}
-				else
-				{
-					var s = Path.Combine(fsi.FullName, "*");
-					if (Filter.Where(s.Substring(0, s.Length - 1), include, exclude))
+					if ((fsi.Attributes & FileAttributes.Directory) == 0)
 					{
-						var pr = Path.Combine(relative, fsi.Name);
-						handleDir(pr);
-						Go(path, pr, include, exclude, handleDir, handleFile);
+						if (Filter.Where(fsi.FullName, include, exclude))
+							handleFile(Path.Combine(relative, fsi.Name));
+					} else
+					{
+						var s = Path.Combine(fsi.FullName, "*");
+						if (Filter.Where(s.Substring(0, s.Length - 1), include, exclude))
+						{
+							var pr = Path.Combine(relative, fsi.Name);
+							handleDir(pr);
+							Go(path, pr, include, exclude, handleDir, handleFile);
+						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Log(e.Message, "processing path", Path.Combine(path, relative));
 			}
 		}
 
 		static void Go(string directory, string pattern, Regex include, Regex exclude, Action<string> handleFile)
 		{
-			foreach (var fsi in new DirectoryInfo(directory).EnumerateFileSystemInfos(pattern, SearchOption.TopDirectoryOnly))
-				if ((fsi.Attributes & FileAttributes.Directory) == 0)
-					if (Filter.Where(fsi.FullName, include, exclude))
-						handleFile(fsi.Name);
+			try
+			{
+				foreach (var fsi in new DirectoryInfo(directory).EnumerateFileSystemInfos(pattern, SearchOption.TopDirectoryOnly))
+					if ((fsi.Attributes & FileAttributes.Directory) == 0)
+						if (Filter.Where(fsi.FullName, include, exclude))
+							handleFile(fsi.Name);
+			}
+			catch (Exception e)
+			{
+				Logger.Log(e.Message, "processing path", Path.Combine(directory, pattern));
+			}
 		}
 	}
 }
