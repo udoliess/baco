@@ -10,11 +10,11 @@ namespace baco
 
 		public static int Main(string[] args)
 		{
-			Statistics.Create();
-			var useDefaultSettings = File.Exists(Const.DefaultSettings) && new FileInfo(Const.DefaultSettings).Length > 0;
-			Console.WriteLine(Info.About);
 			try
 			{
+				Statistics.Create();
+				var useDefaultSettings = File.Exists(Const.DefaultSettings) && new FileInfo(Const.DefaultSettings).Length > 0;
+				Console.WriteLine(Info.About);
 				switch (args.Length)
 				{
 					case 0:
@@ -46,29 +46,29 @@ namespace baco
 						Help();
 						break;
 				}
+				if (!help)
+				{
+					Console.WriteLine();
+					WriteDestination();
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} backup(s) deleted.", Statistics.DeleteCount));
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) copied.", Statistics.CopyBytes, Statistics.CopyCount));
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) linked.", Statistics.LinkBytes, Statistics.LinkCount));
+					var elapsed = Statistics.Elapsed;
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) backuped in {2} ({3:N0} bytes/s).", Statistics.CopyBytes + Statistics.LinkBytes, Statistics.CopyCount + Statistics.LinkCount, TimeSpan.FromSeconds(Math.Ceiling(elapsed.TotalSeconds)), (Statistics.CopyBytes + Statistics.LinkBytes) / elapsed.TotalSeconds));
+					if (Statistics.ErrorCount == 0)
+						Console.WriteLine("All OK.");
+					else
+						Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} error(s)! See file baco.log for details.", Statistics.ErrorCount));
+				}
+				Console.WriteLine();
+				return Statistics.ErrorCount > 0 ? 1 : 0;
 			}
 			catch (Exception e)
 			{
 				Logger.Log(e.Message);
+				Console.WriteLine("Fatal error!");
+				return 1;
 			}
-
-			if (!help)
-			{
-				Console.WriteLine();
-				WriteDestination();
-				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} backup(s) deleted.", Statistics.DeleteCount));
-				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) copied.", Statistics.CopyBytes, Statistics.CopyCount));
-				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) linked.", Statistics.LinkBytes, Statistics.LinkCount));
-				var elapsed = Statistics.Elapsed;
-				Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) backuped in {2} ({3:N0} bytes/s).", Statistics.CopyBytes + Statistics.LinkBytes, Statistics.CopyCount + Statistics.LinkCount, TimeSpan.FromSeconds(Math.Ceiling(elapsed.TotalSeconds)), (Statistics.CopyBytes + Statistics.LinkBytes) / elapsed.TotalSeconds));
-				if (Statistics.ErrorCount == 0)
-					Console.WriteLine("All OK.");
-				else
-					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} error(s)! See file baco.log for details.", Statistics.ErrorCount));
-			}
-
-			Console.WriteLine();
-			return Statistics.ErrorCount > 0 ? 1 : 0;
 		}
 
 		static void Help()
