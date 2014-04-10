@@ -70,24 +70,24 @@ settings-file:
 settings-file example:
 <baco>
 
-	<!-- Following 'source' entries are examples for Windows: -->
-	<!-- ==================================================== -->
+	<!-- Following 'source' entries are illustrative examples for Windows: -->
+	<!-- ================================================================= -->
 
 	<!-- Copy all .jpg pictures in directory 'Pictures' but no files in subdirectories. -->
 	<source>
 		<path>d:\Pictures\*.jpg</path>
 	</source>
 
-	<!-- Copy all files in 'My Documents' and below (recursive) but skip files ending with '.tmp', '.TmP', '.temp', '.teMp', ... -->
+	<!-- Copy all files in 'Documents' and below (recursive) but skip files ending with '.tmp', '.TmP', '.temp', '.teMp', ... -->
 	<source>
-		<path>c:\My Documents\</path>
+		<path>c:\Documents\</path>
 		<omit>*.tmp</omit>
 		<omit>*.temp</omit>
 	</source>
 
-	<!-- Copy all files in 'Documents' and below (recursive). Define the same exclude rules as above with one regular expression. -->
+	<!-- Copy all files in 'Texts' and below (recursive). Define the same exclude rules as above with one regular expression. -->
 	<source>
-		<path>c:\Documents\</path>
+		<path>c:\Texts\</path>
 		<exclude>(?i)\.te?mp$</exclude>
 	</source>
 
@@ -98,8 +98,39 @@ settings-file example:
 	</source>
 
 
-	<!-- Following 'source' entries are examples for Linux: -->
-	<!-- ================================================== -->
+	<!-- Following 'source' entries are real life examples for Windows 7: -->
+	<!-- ================================================================ -->
+
+	<source>
+		<path>c:\baco\</path>
+	</source>
+	<source>
+		<path>c:\Users\user\Documents\</path>
+		<omit>c:\Users\user\Documents\My Music\</omit>
+		<omit>c:\Users\user\Documents\My Pictures\</omit>
+		<omit>c:\Users\user\Documents\My Videos\</omit>
+	</source>
+	<source>
+		<path>c:\Users\user\Music\</path>
+	</source>
+	<source>
+		<path>c:\Users\user\Pictures\</path>
+	</source>
+	<source>
+		<path>c:\Users\user\Videos\</path>
+	</source>
+	<source>
+		<path>c:\Users\user\AppData\Roaming\Mozilla\Firefox\</path>
+		<take>*\</take>
+		<take>*\places.sqlite</take>
+	</source>
+	<source>
+		<path>c:\Users\user\AppData\Roaming\Thunderbird\</path>
+	</source>
+
+
+	<!-- Following 'source' entries are real life examples for Linux: -->
+	<!-- ============================================================ -->
 
 	<!-- Backup the user directory but ignore hidden files and folders (starting with '.'), 'lost+found' directory, 'Desktop' and 'Downloads'. -->
 	<source>
@@ -113,8 +144,8 @@ settings-file example:
 	<!-- Backup the Firefox bookmarks database file. Only the directories below '.mozilla' and the files named 'places.sqlite' are taken, other files are skipped. -->
 	<source>
 		<path>/home/user/.mozilla/</path>
-		<take>/home/user/.mozilla/*/</take>
-		<take>/home/user/.mozilla/*/places.sqlite</take>
+		<take>*/</take>
+		<take>*/places.sqlite</take>
 	</source>
 
 	<source>
