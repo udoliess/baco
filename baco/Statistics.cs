@@ -17,16 +17,12 @@ namespace baco
 		static long linkBytes;
 		static long errorCount;
 
-		static Statistics()
+		public static void Create()
 		{
 			stopwatch = Stopwatch.StartNew();
 			startUtc = DateTime.UtcNow;
 			start = startUtc.ToLocalTime();
 			stamp = Statistics.Start.ToString(Const.StampFormat, CultureInfo.InvariantCulture);
-		}
-
-		public static void Create()
-		{
 		}
 
 		public static string Stamp { get { return stamp; } }
