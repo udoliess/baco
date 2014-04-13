@@ -56,9 +56,9 @@ settings-file:
 		folders (ending with / or \) or
 		groups of files (with wildcards).
 	To include certain files or folders use one regular expression string per source.
-	Alternatively one or more case insensitive ""take"" entries with wildcards (""*"" and ""?"") can be used.
+	Alternatively one or more ""take"" entries with wildcards (""*"" and ""?"") can be used. On Windows they are case insensitive, on Linux/Unix they are case sensitive.
 	To exclude certain files or folders use one regular expression string per source.
-	Alternatively one or more case insensitive ""omit"" entries with wildcards (""*"" and ""?"") can be used.
+	Alternatively one or more ""omit"" entries with wildcards (""*"" and ""?"") can be used. On Windows they are case insensitive, on Linux/Unix they are case sensitive.
 		The include and take expressions are processed first, then the exclude and omit expressions.
 		For regular expressions see .NET help: ""Regular Expression Language Elements"" or <google.com/search?q=.NET+Regular+Expression+Language+Elements>.
 	Use alias if the resulting destination path is too long. (The fully qualified file name must be less than 260 characters, and the directory name must be less than 248 characters.)
