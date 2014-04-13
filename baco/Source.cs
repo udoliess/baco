@@ -19,7 +19,7 @@ namespace baco
 		static Regex Combine(string direct, IEnumerable<string> wildcards)
 		{
 			var parts = string.Join("|", wildcards.Select(x => "(^" + Regex.Escape(x).Replace(@"\*", ".*").Replace(@"\?", ".") + "$)"));
-			var all = string.Join("|", new string[] { !string.IsNullOrEmpty(direct) ? "(" + direct + ")" : null, !string.IsNullOrEmpty(parts) ? "(?i:" + parts + ")" : null }.Where(x => !string.IsNullOrEmpty(x)));
+			var all = string.Join("|", new string[] { !string.IsNullOrEmpty(direct) ? "(" + direct + ")" : null, !string.IsNullOrEmpty(parts) ? (OS.Unix ? "(" : "(?i:" + parts + ")") : null }.Where(x => !string.IsNullOrEmpty(x)));
 			return string.IsNullOrEmpty(all) ? null : new Regex(all);
 		}
 
