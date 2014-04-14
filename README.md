@@ -35,7 +35,7 @@ Foundation, either version 3 of the License, or any later version.
 see: LICENSE.txt
 
 ---
-<http://udol.de/baco>
-<https://github.com/udoliess/baco>
+<http://udol.de/baco>  
+<https://github.com/udoliess/baco>  
 Copyright (C) 2006...2014 Udo Liess
 
