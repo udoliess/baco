@@ -36,19 +36,23 @@ namespace baco
 						source.Exclude,
 						dir =>
 						{
+							var sourceDir = Path.Combine(source.Directory, dir);
 							try
 							{
+								Console.WriteLine("      " + sourceDir);
 								Directory.CreateDirectory(Path.Combine(Destination.Path, stamp, source.Alias, dir));
-							} catch (Exception e)
+							}
+							catch (Exception e)
 							{
-								Logger.Log(e.Message, "processing directory", Path.Combine(source.Directory, dir));
+								Logger.Log(e.Message, "processing directory", sourceDir);
 							}
 						},
 						file =>
 						{
+							var sourceFile = Path.Combine(source.Directory, file);
 							try
 							{
-								var sourceFile = Path.Combine(source.Directory, file);
+								Console.WriteLine("      " + sourceFile);
 								var destinationFile = Path.Combine(Destination.Path, stamp, source.Alias, file);
 								var link = false;
 								var hash = Hash.FromFile(sourceFile);
@@ -68,16 +72,18 @@ namespace baco
 								{
 									Console.WriteLine("link: " + sourceFile);
 									Statistics.IncLink(new FileInfo(destinationFile).Length);
-								} else
+								}
+								else
 								{
 									Console.WriteLine("copy: " + sourceFile);
 									Statistics.IncCopy(new FileInfo(destinationFile).Length);
 								}
 								catalog [hash] = destinationFile;
 								Hash.AppendHash(hashes, hash, Path.Combine(stamp, source.Alias, file));
-							} catch (Exception e)
+							}
+							catch (Exception e)
 							{
-								Logger.Log(e.Message, "processing file", Path.Combine(source.Directory, file));
+								Logger.Log(e.Message, "processing file", sourceFile);
 							}
 						}
 					);

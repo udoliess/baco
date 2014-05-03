@@ -52,21 +52,24 @@ namespace baco
 							null,
 							dir =>
 							{
+								var sourceDir = Path.Combine(src, dir);
 								try
 								{
-									Directory.CreateDirectory(Path.Combine(Destination.Path, s, dir));
+									Console.WriteLine("      " + sourceDir);
+									Directory.CreateDirectory(Path.Combine(dst, dir));
 								}
 								catch (Exception e)
 								{
-									Logger.Log(e.Message, "processing directory", Path.Combine(src, dir));
+									Logger.Log(e.Message, "processing directory", sourceDir);
 								}
 							},
 							file =>
 							{
-								var sourceFile = Path.Combine(source, s, file);
+								var sourceFile = Path.Combine(src, file);
 								try
 								{
-									var destinationFile = Path.Combine(Destination.Path, s, file);
+									Console.WriteLine("      " + sourceFile);
+									var destinationFile = Path.Combine(dst, file);
 									File.Delete(destinationFile);
 									var link = false;
 									var hash = Hash.FromFile(sourceFile);
