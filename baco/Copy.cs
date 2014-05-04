@@ -55,7 +55,7 @@ namespace baco
 								var sourceDir = Path.Combine(src, dir);
 								try
 								{
-									Console.WriteLine("      " + sourceDir);
+									Console.WriteLine("        " + PathEx.Suffixed(sourceDir));
 									Directory.CreateDirectory(Path.Combine(dst, dir));
 								}
 								catch (Exception e)
@@ -68,7 +68,7 @@ namespace baco
 								var sourceFile = Path.Combine(src, file);
 								try
 								{
-									Console.WriteLine("      " + sourceFile);
+									Console.WriteLine("        " + sourceFile);
 									var destinationFile = Path.Combine(dst, file);
 									File.Delete(destinationFile);
 									var link = false;
@@ -102,12 +102,12 @@ namespace baco
 									Attributes.Copy(sourceFile, destinationFile);
 									if (link)
 									{
-										Console.WriteLine("link: " + sourceFile);
+										Console.WriteLine("linked: " + sourceFile);
 										Statistics.IncLink(new FileInfo(destinationFile).Length);
 									}
 									else
 									{
-										Console.WriteLine("copy: " + sourceFile);
+										Console.WriteLine("copied: " + sourceFile);
 										Statistics.IncCopy(new FileInfo(destinationFile).Length);
 									}
 									catalog[hash] = destinationFile;

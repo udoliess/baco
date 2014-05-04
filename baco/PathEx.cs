@@ -18,6 +18,16 @@ namespace baco
 				path = path.Substring(1);
 			return path;
 		}
+
+		/// <summary>
+		/// Suffixed specified path with directory separator.
+		/// </summary>
+		/// <param name="path">Path.</param>
+		public static string Suffixed(string path)
+		{
+			var s = Path.Combine(path, "*");
+			return s.Substring (0, s.Length - 1);
+		}
 	}
 }
 

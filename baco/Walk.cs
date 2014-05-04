@@ -27,8 +27,7 @@ namespace baco
 							handleFile(Path.Combine(relative, fsi.Name));
 					} else
 					{
-						var s = Path.Combine(fsi.FullName, "*");
-						if (Filter.Where(s.Substring(0, s.Length - 1), include, exclude))
+						if (Filter.Where(PathEx.Suffixed(fsi.FullName), include, exclude))
 						{
 							var pr = Path.Combine(relative, fsi.Name);
 							handleDir(pr);
