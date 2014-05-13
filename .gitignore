@@ -4,4 +4,5 @@ baco/*.pidb
 *.userprefs
 *.suo
 *.csproj.user
+*~
 
