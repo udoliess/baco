@@ -6,6 +6,8 @@
 *.resx text
 *.xml text
 *.txt text
+*.exe binary
+*.dll binary
 
 example.xml text eol=crlf
 LICENSE.txt text eol=crlf
