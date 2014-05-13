@@ -40,10 +40,10 @@ This program comes with ABSOLUTELY NO WARRANTY.
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or any later version.
+
 ";
 
-		const string help = @"
-usage to show this help: baco.exe ?
+		const string help = @"usage to show this help: baco.exe ?
 usage to backup: baco.exe settings-file [destination]
 usage to backup with settings in default file ""baco.xml"" in current directory: baco.exe
 usage to copy old backups with hardlinks: baco.exe old-destination [new-destination]
