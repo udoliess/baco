@@ -13,23 +13,17 @@ namespace baco
 		{
 			try
 			{
-				var bufferRead = buffers[0];
-				var bufferWrite = buffers[1];
-				var len = 0;
 				using (var streamSource = File.OpenRead(pathSrc))
 				using (var streamDestination = File.OpenWrite(pathDst))
 				{
+					var bufferRead = buffers[0];
+					var bufferWrite = buffers[1];
+					var len = 0;
 					do
 					{
-						var resultWrite = streamDestination.BeginWrite(bufferWrite, 0, len, null, null);
-						try
-						{
-							len = streamSource.Read(bufferRead, 0, Const.BufferSize);
-						}
-						finally
-						{
-							streamDestination.EndWrite(resultWrite);
-						}
+						var taskWrite = streamDestination.WriteAsync(bufferWrite, 0, len);
+						len = streamSource.Read(bufferRead, 0, Const.BufferSize);
+						taskWrite.Wait();
 						var bufferTemp = bufferWrite;
 						bufferWrite = bufferRead;
 						bufferRead = bufferTemp;
@@ -48,59 +42,23 @@ namespace baco
 			{
 				if (new FileInfo(pathA).Length != new FileInfo(pathB).Length)
 					return false;
-				var bufferReadA = buffers[0];
-				var bufferReadB = buffers[1];
-				var bufferCompA = buffers[2];
-				var bufferCompB = buffers[3];
-				var len = 0;
 				using (var streamA = File.OpenRead(pathA))
 				using (var streamB = File.OpenRead(pathB))
 				{
+					var bufferReadA = buffers[0];
+					var bufferReadB = buffers[1];
+					var bufferCompA = buffers[2];
+					var bufferCompB = buffers[3];
+					var len = 0;
 					do
 					{
-						var cancel = false;
-						var lenA = default(int);
-						var resultA = streamA.BeginRead(bufferReadA, 0, Const.BufferSize, null, null);
-						try
-						{
-							var resultB = streamB.BeginRead(bufferReadB, 0, Const.BufferSize, null, null);
-							try
-							{
-								for (var i = 0; i < len; ++i)
-									if (bufferCompA[i] != bufferCompB[i])
-									{
-										cancel = true;
-										streamA.Close();
-										streamB.Close();
-										return false;
-									}
-							}
-							finally
-							{
-								try
-								{
-									len = streamB.EndRead(resultB);
-								}
-								catch
-								{
-									if (!cancel)
-										throw;
-								}
-							}
-						}
-						finally
-						{
-							try
-							{
-								lenA = streamA.EndRead(resultA);
-							}
-							catch
-							{
-								if (!cancel)
-									throw;
-							}
-						}
-						if (lenA != len)
+						var readATask = streamA.ReadAsync(bufferReadA, 0, Const.BufferSize);
+						var readBTask = streamB.ReadAsync(bufferReadB, 0, Const.BufferSize);
+						for (var i = 0; i < len; ++i)
+							if (bufferCompA[i] != bufferCompB[i])
+								return false;
+						len = readATask.Result;
+						if (len != readBTask.Result)
 							return false;
 						var bufferTemp = bufferCompA;
 						bufferCompA = bufferReadA;
