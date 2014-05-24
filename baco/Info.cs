@@ -29,7 +29,7 @@ namespace baco
 
 		readonly static string about = @"
 baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.GetAssemblyName(Assembly.GetCallingAssembly().Location).Version.ToString() + @"
-Runs with Mono / .NET 4.0, under Linux/Unix and Windows.
+Runs with Mono / .NET 4.5, under Linux/Unix and Windows.
 Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)
 <udol.de/baco>
 <github.com/udoliess/baco>
