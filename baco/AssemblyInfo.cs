@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: AssemblyTitle("baco")]
 [assembly: AssemblyDescription("baco (BackupCopy), backup using copy and hard links, <udol.de/baco>")]
-[assembly: AssemblyConfiguration("Mono / .NET 4.0")]
+[assembly: AssemblyConfiguration("Mono / .NET 4.5")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)")]
@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("2.1.9.0")]
+[assembly: AssemblyVersion("2.2.0.0")]
 
 // The following attributes are used to specify the signing key for the assembly, 
 // if desired. See the Mono documentation for more information about signing.
