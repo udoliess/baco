@@ -28,6 +28,7 @@ namespace baco
 				}
 				if (delete)
 				{
+					Console.WriteLine("delete: {0}", curDir);
 					var dir = Path.Combine(Destination.Path, curDir);
 					try
 					{
@@ -63,7 +64,6 @@ namespace baco
 					{
 						Logger.Log(e.Message, "deleting file", file);
 					}
-					Console.WriteLine("delete: {0}", curDir);
 					Statistics.IncDelete();
 				}
 				else
