@@ -57,26 +57,27 @@ namespace baco
 								var link = false;
 								var hash = Hash.FromFile(sourceFile);
 								string cat;
-								if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat))
+								long length = 0;
+								if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat, out length))
 									link = HardLink.Create(cat, destinationFile);
 								if (!link && last != null)
 								{
 									var tandem = Path.Combine(Destination.Path, last, source.Alias, file);
-									if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem))
+									if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem, out length))
 										link = HardLink.Create(tandem, destinationFile);
 								}
 								if (!link)
-									Content.Copy(sourceFile, destinationFile);
+									Content.Copy(sourceFile, destinationFile, out length);
 								Attributes.Copy(sourceFile, destinationFile);
 								if (link)
 								{
 									Console.WriteLine("linked: " + sourceFile);
-									Statistics.IncLink(new FileInfo(destinationFile).Length);
+									Statistics.IncLink(length);
 								}
 								else
 								{
 									Console.WriteLine("copied: " + sourceFile);
-									Statistics.IncCopy(new FileInfo(destinationFile).Length);
+									Statistics.IncCopy(length);
 								}
 								catalog [hash] = destinationFile;
 								Hash.AppendHash(hashes, hash, Path.Combine(stamp, source.Alias, file));

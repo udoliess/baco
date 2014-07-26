@@ -9,10 +9,11 @@ namespace baco
 	{
 		static byte[][] buffers = Enumerable. Repeat(0, 4).Select(x => new byte[Const.BufferSize]).ToArray();
 
-		public static void Copy(string pathSrc, string pathDst)
+		public static void Copy(string pathSrc, string pathDst, out long length)
 		{
 			try
 			{
+				length = 0;
 				using (var streamSource = File.OpenRead(pathSrc))
 				using (var streamDestination = File.OpenWrite(pathDst))
 				{
@@ -23,6 +24,7 @@ namespace baco
 					{
 						var taskWrite = streamDestination.WriteAsync(bufferWrite, 0, len);
 						len = streamSource.Read(bufferRead, 0, Const.BufferSize);
+						length += len;
 						taskWrite.Wait();
 						var bufferTemp = bufferWrite;
 						bufferWrite = bufferRead;
@@ -36,10 +38,11 @@ namespace baco
 			}
 		}
 
-		public static bool Compare(string pathA, string pathB)
+		public static bool Compare(string pathA, string pathB, out long length)
 		{
 			try
 			{
+				length = 0;
 				if (new FileInfo(pathA).Length != new FileInfo(pathB).Length)
 					return false;
 				using (var streamA = File.OpenRead(pathA))
@@ -60,6 +63,7 @@ namespace baco
 						len = readATask.Result;
 						if (len != readBTask.Result)
 							return false;
+						length += len;
 						var bufferTemp = bufferCompA;
 						bufferCompA = bufferReadA;
 						bufferReadA = bufferTemp;

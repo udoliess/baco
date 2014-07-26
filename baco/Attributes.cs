@@ -22,9 +22,9 @@ namespace baco
 			}
 			catch
 			{
-				File.SetAttributes(destination, FileAttributes.Normal);
 				try
 				{
+					File.SetAttributes(destination, FileAttributes.Normal);
 					copy();
 				}
 				catch
