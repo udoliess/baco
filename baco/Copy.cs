@@ -74,7 +74,6 @@ namespace baco
 									{
 										Console.WriteLine("        " + sourceFile);
 										var destinationFile = Path.Combine(dst, file);
-										File.Delete(destinationFile);
 										var link = false;
 										var hash = Hash.FromFile(sourceFile);
 										if (check != null)
