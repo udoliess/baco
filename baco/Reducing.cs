@@ -38,10 +38,7 @@ namespace baco
 						}
 						catch
 						{
-							var dirInfo = new DirectoryInfo(dir) { Attributes = FileAttributes.Normal };
-							foreach (var info in dirInfo.EnumerateFileSystemInfos("*", SearchOption.AllDirectories))
-								info.Attributes = FileAttributes.Normal;
-							dirInfo.Delete(true);
+							Delete(new DirectoryInfo(dir));
 						}
 					}
 					catch (Exception e)
@@ -57,7 +54,7 @@ namespace baco
 						}
 						catch
 						{
-							new FileInfo(file) { Attributes = FileAttributes.Normal }.Delete();
+							Delete(new FileInfo(file));
 						}
 					}
 					catch (Exception e)
@@ -72,6 +69,16 @@ namespace baco
 					lastDateTime = curDateTime;
 				}
 			}
+		}
+
+		static void Delete(FileSystemInfo fileSystemInfo)
+		{
+			fileSystemInfo.Attributes = FileAttributes.Normal;
+			var di = fileSystemInfo as DirectoryInfo;
+			if (di != null)
+				foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
+					Delete(fsi);
+			fileSystemInfo.Delete();
 		}
 	}
 }
