@@ -73,11 +73,14 @@ namespace baco
 
 		static void Delete(FileSystemInfo fileSystemInfo)
 		{
+			if ((fileSystemInfo.Attributes & FileAttributes.ReparsePoint) == 0)
+			{
+				var di = fileSystemInfo as DirectoryInfo;
+				if (di != null)
+					foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
+						Delete(fsi);
+			}
 			fileSystemInfo.Attributes = FileAttributes.Normal;
-			var di = fileSystemInfo as DirectoryInfo;
-			if (di != null)
-				foreach (var fsi in di.EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
-					Delete(fsi);
 			fileSystemInfo.Delete();
 		}
 	}

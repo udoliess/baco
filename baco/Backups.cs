@@ -20,6 +20,7 @@ namespace baco
 		{
 			return new DirectoryInfo(path).
 				EnumerateFileSystemInfos("??????_????", SearchOption.TopDirectoryOnly).
+				Where(fsi => (fsi.Attributes & FileAttributes.ReparsePoint) == 0).
 				Where(fsi => (fsi.Attributes & FileAttributes.Directory) != 0).
 				Select(fsi => fsi.Name).
 				Where(n => filter.IsMatch(n));

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace baco
@@ -19,13 +20,15 @@ namespace baco
 		{
 			try
 			{
-				foreach (var fsi in new DirectoryInfo(Path.Combine(path, relative)).EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly))
+				foreach (var fsi in new DirectoryInfo(Path.Combine(path, relative)).EnumerateFileSystemInfos("*", SearchOption.TopDirectoryOnly).
+					Where(fsi => (fsi.Attributes & FileAttributes.ReparsePoint) == 0))
 				{
 					if ((fsi.Attributes & FileAttributes.Directory) == 0)
 					{
 						if (Filter.Where(fsi.FullName, include, exclude))
 							handleFile(Path.Combine(relative, fsi.Name));
-					} else
+					}
+					else
 					{
 						if (Filter.Where(PathEx.Suffixed(fsi.FullName), include, exclude))
 						{
@@ -46,10 +49,11 @@ namespace baco
 		{
 			try
 			{
-				foreach (var fsi in new DirectoryInfo(directory).EnumerateFileSystemInfos(pattern, SearchOption.TopDirectoryOnly))
-					if ((fsi.Attributes & FileAttributes.Directory) == 0)
-						if (Filter.Where(fsi.FullName, include, exclude))
-							handleFile(fsi.Name);
+				foreach (var fsi in new DirectoryInfo(directory).EnumerateFileSystemInfos(pattern, SearchOption.TopDirectoryOnly).
+					Where(fsi => (fsi.Attributes & FileAttributes.ReparsePoint) == 0).
+					Where(fsi => (fsi.Attributes & FileAttributes.Directory) == 0).
+					Where(fsi => Filter.Where(fsi.FullName, include, exclude)))
+					handleFile(fsi.Name);
 			}
 			catch (Exception e)
 			{
