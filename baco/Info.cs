@@ -28,9 +28,9 @@ namespace baco
 		}
 
 		readonly static string about = @"
-baco (BackupCopy), backup using copy and hard links, version " + AssemblyName.GetAssemblyName(Assembly.GetCallingAssembly().Location).Version.ToString() + @"
+baco (BackupCopy), backup using copy and hard links, version " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + @"
 Runs with Mono / .NET 4.5, under Linux/Unix and Windows.
-Copyright (C) 2006...2014 Udo Liess, Dresden, Germany (udo.liess@gmx.net)
+" + Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright + @"
 <udol.de/baco>
 <github.com/udoliess/baco>
 usage to show help: baco.exe ?
