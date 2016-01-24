@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace baco
 			var lastDateTime = default(DateTime);
 			foreach (string curDir in Backups.Old(Destination.Path).OrderBy(x => x).WithoutLast(1))
 			{
-				var curDateTime = DateTime.ParseExact(Path.GetFileNameWithoutExtension(curDir), Const.StampFormat, null);
+				var curDateTime = DateTime.ParseExact(Path.GetFileNameWithoutExtension(curDir), Const.StampFormat, CultureInfo.InvariantCulture);
 				bool delete = false;
 				int entry = reduces.BinarySearch(new Reduce(Statistics.Start - curDateTime));
 				entry = entry < 0 ? ~entry - 1 : entry;

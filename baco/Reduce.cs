@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace baco
 {
@@ -19,8 +20,8 @@ namespace baco
 		/// </param>
 		public Reduce(string age, string span)
 		{
-			this.age = TimeSpan.Parse(age);
-			this.span = TimeSpan.Parse(span);
+			this.age = TimeSpan.Parse(age, CultureInfo.InvariantCulture);
+			this.span = TimeSpan.Parse(span, CultureInfo.InvariantCulture);
 		}
 
 		/// <summary>
