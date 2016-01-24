@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO;
 
 namespace baco
@@ -13,8 +14,8 @@ namespace baco
 		public static string Unroot(string path)
 		{
 			if (Path.VolumeSeparatorChar != Path.DirectorySeparatorChar)
-				path = path.Replace(Path.VolumeSeparatorChar, Path.DirectorySeparatorChar).Replace(Path.DirectorySeparatorChar.ToString() + Path.DirectorySeparatorChar, Path.DirectorySeparatorChar.ToString());
-			if (path.StartsWith(Path.DirectorySeparatorChar.ToString()))
+				path = path.Replace(Path.VolumeSeparatorChar, Path.DirectorySeparatorChar).Replace(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture) + Path.DirectorySeparatorChar, Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture));
+			if (path.StartsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)))
 				path = path.Substring(1);
 			return path;
 		}

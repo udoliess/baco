@@ -42,7 +42,7 @@ namespace baco
 
 		static string AsString(byte[] hash)
 		{
-			var str = string.Join(null, Array.ConvertAll<byte, string>(hash, x => x.ToString("x2")));
+			var str = string.Join(null, Array.ConvertAll<byte, string>(hash, x => x.ToString("x2", CultureInfo.InvariantCulture)));
 			return str;
 		}
 

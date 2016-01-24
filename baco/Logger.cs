@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace baco
 			{
 				Directory.CreateDirectory(Destination.Path);
 				using (TextWriter tw = new StreamWriter(Path.Combine(Destination.Path, Const.LogFile), true))
-					tw.WriteLine(DateTime.Now.ToString(Const.LogFormat) + msg);
+					tw.WriteLine(DateTime.Now.ToString(Const.LogFormat, CultureInfo.InvariantCulture) + msg);
 			}
 			catch
 			{
