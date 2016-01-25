@@ -38,5 +38,5 @@ see: LICENSE.txt
 
 ---
 <https://github.com/udoliess/baco>  
-Copyright (C) 2006...2014 Udo Liess
+Copyright (C) 2006...2016 Udo Liess
 
