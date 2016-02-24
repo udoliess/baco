@@ -10,7 +10,7 @@ namespace baco
 		public Source(string alias, string source, string include, IEnumerable<string> takes, string exclude, IEnumerable<string> omits)
 		{
 			Pattern = Path.GetFileName(source);
-			Directory = Path.GetFullPath(Path.GetDirectoryName(source));
+			Directory = Path.GetFullPath(Path.Combine(Path.GetPathRoot(source) ?? "", Path.GetDirectoryName(source) ?? ""));
 			Alias = PathEx.Unroot(alias ?? Directory);
 			Include = Combine(include, takes);
 			Exclude = Combine(exclude, omits);
