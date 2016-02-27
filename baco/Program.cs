@@ -65,7 +65,7 @@ namespace baco
 			}
 			catch (Exception e)
 			{
-				Logger.Log(e.Message);
+				Logger.Log(e.ToString());
 				Console.WriteLine("Fatal error!");
 				return 1;
 			}
