@@ -61,7 +61,7 @@ namespace baco
 						Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} error(s)! See file baco.log for details.", Statistics.ErrorCount));
 				}
 				Console.WriteLine();
-				return Statistics.ErrorCount > 0 ? 1 : 0;
+				return Statistics.ErrorCount > 0 ? 2 : 0;
 			}
 			catch (Exception e)
 			{
