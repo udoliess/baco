@@ -58,8 +58,18 @@ namespace baco
 								var hash = Hash.FromFile(sourceFile);
 								string cat;
 								long length = 0;
-								if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat, out length))
-									link = HardLink.Create(cat, destinationFile);
+								if (catalog.TryGetValue(hash, out cat))
+								{
+									if (!File.Exists(cat))
+										Logger.Log("checksum without file", cat);
+									else
+									{
+										if (!Content.Compare(sourceFile, cat, out length))
+											Logger.Log("corrupt file", cat);
+										else
+											link = HardLink.Create(cat, destinationFile);
+									}
+								}
 								if (!link && last != null)
 								{
 									var tandem = Path.Combine(Destination.Path, last, source.Alias, file);
