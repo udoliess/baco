@@ -65,7 +65,12 @@ namespace baco
 									else
 									{
 										if (!Content.Compare(sourceFile, cat, out length))
-											Logger.Log("hash collision or corrupt file", cat);
+										{
+											if (hash == Hash.FromFile(cat))
+												Logger.Log("hash collision", sourceFile, cat);
+											else
+												Logger.Log("corrupt file", cat);
+										}
 										else
 											link = HardLink.Create(cat, destinationFile);
 									}
