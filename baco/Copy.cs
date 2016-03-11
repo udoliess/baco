@@ -83,12 +83,12 @@ namespace baco
 											if (check.TryGetValue(key, out chk))
 											{
 												if (hash != chk)
-													Logger.Log("warning: corrupt file", Path.GetFullPath(sourceFile));
+													Logger.Log("corrupt file", Path.GetFullPath(sourceFile));
 												check.Remove(key);
 											}
 											else
 											{
-												Logger.Log("warning: file without checksum", Path.GetFullPath(sourceFile));
+												Logger.Log("file without checksum", Path.GetFullPath(sourceFile));
 											}
 										}
 										string cat;
@@ -127,7 +127,7 @@ namespace baco
 						Hash.Done(dst);
 						if (check != null)
 							foreach (var kvp in check)
-								Logger.Log("warning: checksum without file", Path.GetFullPath(kvp.Key));
+								Logger.Log("checksum without file", Path.GetFullPath(kvp.Key));
 						last = s;
 					}
 					else
