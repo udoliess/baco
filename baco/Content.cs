@@ -7,14 +7,14 @@ namespace baco
 {
 	public static class Content
 	{
-		static byte[][] buffers = Enumerable. Repeat(0, 4).Select(x => new byte[Const.BufferSize]).ToArray();
+		static byte[][] buffers = Enumerable.Repeat(0, 4).Select(x => new byte[Const.BufferSize]).ToArray();
 
 		public static void Copy(string pathSrc, string pathDst, out long length)
 		{
 			try
 			{
 				length = 0;
-				using (var streamSource = File.OpenRead(pathSrc))
+				using (var streamSource = File.Open(pathSrc, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 				using (var streamDestination = File.OpenWrite(pathDst))
 				{
 					var bufferRead = buffers[0];
@@ -45,8 +45,8 @@ namespace baco
 				length = 0;
 				if (new FileInfo(pathA).Length != new FileInfo(pathB).Length)
 					return false;
-				using (var streamA = File.OpenRead(pathA))
-				using (var streamB = File.OpenRead(pathB))
+				using (var streamA = File.Open(pathA, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+				using (var streamB = File.Open(pathB, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 				{
 					var bufferReadA = buffers[0];
 					var bufferReadB = buffers[1];

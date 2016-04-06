@@ -35,7 +35,7 @@ namespace baco
 		/// </param>
 		public static string FromFile(string path)
 		{
-			using (var stream = new BufferedStream(File.OpenRead(path), Const.BufferSize))
+			using (var stream = new BufferedStream(File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Const.BufferSize))
 			using (var alg = CreateAlgorithm())
 				return AsString(alg.ComputeHash(stream));
 		}
@@ -57,7 +57,7 @@ namespace baco
 		/// </param>
 		public static void ReadHashes(string hashes, Action<string, string> entry)
 		{
-			using (var streamReader = new StreamReader(new GZipStream(File.OpenRead(hashes), CompressionMode.Decompress)))
+			using (var streamReader = new StreamReader(new GZipStream(File.Open(hashes, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), CompressionMode.Decompress)))
 			{
 				var delims = new char[] { ' ', '*', '\t' };
 				for (; ; )
