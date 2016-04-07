@@ -6,17 +6,18 @@ using System.Security.Cryptography;
 
 namespace baco
 {
-	public static class Hash
+	public class Hash : IDisposable
 	{
 		const string hashesExtension = "sha1.gz";
 		const string partialExtension = "part";
+		static readonly byte[] empty = new byte[0];
+		static readonly int hashCharacters;
+		HashAlgorithm alg;
 
 		static HashAlgorithm CreateAlgorithm()
 		{
 			return SHA1.Create();
 		}
-
-		static readonly int hashCharacters;
 
 		static Hash()
 		{
@@ -24,11 +25,33 @@ namespace baco
 				hashCharacters = alg.HashSize / 4;
 		}
 
+		public Hash()
+		{
+			alg = CreateAlgorithm();
+		}
+
+		public void Calculate(byte[] data, int len)
+		{
+			alg.TransformBlock(data, 0, len, null, 0);
+		}
+
+		public string Get()
+		{
+			alg.TransformFinalBlock (empty, 0, 0);
+			return AsString(alg.Hash);
+		}
+
+		public void Dispose()
+		{
+			alg.Dispose();
+		}
+
+
 		/// <summary>
 		/// Calculates hash/checksum from file.
 		/// </summary>
 		/// <returns>
-		/// The file.
+		/// The hash string.
 		/// </returns>
 		/// <param name='path'>
 		/// Path.
@@ -142,6 +165,7 @@ namespace baco
 		{
 			File.Move(Partial(backup), Hashes(backup));
 		}
+
 	}
 }
 

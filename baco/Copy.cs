@@ -93,16 +93,30 @@ namespace baco
 										}
 										string cat;
 										long length = 0;
-										if (catalog.TryGetValue(hash, out cat) && File.Exists(cat) && Content.Compare(sourceFile, cat, out length))
-											link = HardLink.Create(cat, destinationFile);
+										if (catalog.TryGetValue(hash, out cat))
+										{
+											if (!File.Exists(cat))
+												Logger.Log("checksum without file", cat);
+											else
+											{
+												string catHash;
+												var equal = Content.Compare(sourceFile, cat, out length, out catHash);
+												if (catHash != hash)
+													Logger.Log("corrupt file", cat);
+												else
+													if (equal)
+														link = HardLink.Create(cat, destinationFile);
+											}
+										}
 										if (!link && last != null)
 										{
 											var tandem = Path.Combine(Destination.Path, last, file);
-											if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem, out length))
+											string tandemHash;
+											if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem, out length, out tandemHash) && tandemHash == hash)
 												link = HardLink.Create(tandem, destinationFile);
 										}
 										if (!link)
-											Content.Copy(sourceFile, destinationFile, out length);
+											Content.Copy(sourceFile, destinationFile, out length, out hash);
 										Attributes.Copy(sourceFile, destinationFile);
 										if (link)
 										{
