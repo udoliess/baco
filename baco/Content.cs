@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace baco
 {
@@ -43,42 +44,53 @@ namespace baco
 		}
 
 		/// <summary>
-		/// Compare the specified files pathA and pathB. If files are equal it returns also file length and hashB.
+		/// Compare the specified files pathA and pathB. Additionally it returns file length and hash of file A.
 		/// </summary>
-		/// <param name="pathA">Path a.</param>
-		/// <param name="pathB">Path b.</param>
-		/// <param name="length">Length.</param>
-		/// <param name="hashB">Hash b.</param>
+		/// <param name="pathA">Path A.</param>
+		/// <param name="pathB">Path B.</param>
+		/// <param name="lengthA">Length A.</param>
+		/// <param name="hashA">Hash A.</param>
 		/// <returns>True if files are equal.</returns>
-		public static bool Compare(string pathA, string pathB, out long length, out string hashB)
+		public static bool Compare(string pathA, string pathB, out long lengthA, out string hashA)
 		{
 			try
 			{
-				hashB = null;
-				length = 0;
-				if (new FileInfo(pathA).Length != new FileInfo(pathB).Length)
+				lengthA = new FileInfo(pathA).Length;
+				if (lengthA != new FileInfo(pathB).Length)
+				{
+					hashA = Hash.FromFile(pathA);
 					return false;
+				}
+				var result = true;
 				using (var streamA = File.Open(pathA, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 				using (var streamB = File.Open(pathB, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-				using (var hashAlgB = new Hash())
+				using (var hashAlgA = new Hash())
 				{
 					var bufferReadA = buffers[0];
 					var bufferReadB = buffers[1];
 					var bufferCompA = buffers[2];
 					var bufferCompB = buffers[3];
 					var len = 0;
+					lengthA = 0;
 					do
 					{
 						var readATask = streamA.ReadAsync(bufferReadA, 0, Const.BufferSize);
-						var readBTask = streamB.ReadAsync(bufferReadB, 0, Const.BufferSize);
-						for (var i = 0; i < len; ++i)
-							if (bufferCompA[i] != bufferCompB[i])
-								return false;
-						hashAlgB.Calculate(bufferCompB, len);
+						var readBTask = default(Task<int>);
+						if (result)
+						{
+							readBTask = streamB.ReadAsync(bufferReadB, 0, Const.BufferSize);
+							for (var i = 0; i < len; ++i)
+								if (bufferCompA[i] != bufferCompB[i])
+								{
+									result = false;
+									break;
+								}
+						}
+						hashAlgA.Calculate(bufferCompA, len);
 						len = readATask.Result;
-						if (len != readBTask.Result)
-							return false;
-						length += len;
+						if (result && len != readBTask.Result)
+							result = false;
+						lengthA += len;
 						var bufferTemp = bufferCompA;
 						bufferCompA = bufferReadA;
 						bufferReadA = bufferTemp;
@@ -86,9 +98,9 @@ namespace baco
 						bufferCompB = bufferReadB;
 						bufferReadB = bufferTemp;
 					} while (len != 0);
-					hashB = hashAlgB.Get();
+					hashA = hashAlgA.Get();
 				}
-				return true;
+				return result;
 			}
 			catch (Exception e)
 			{

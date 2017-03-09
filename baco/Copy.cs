@@ -100,19 +100,23 @@ namespace baco
 											else
 											{
 												string catHash;
-												var equal = Content.Compare(sourceFile, cat, out length, out catHash);
-												if (catHash != hash)
-													Logger.Log("corrupt file", cat);
-												else
-													if (equal)
+												if (Content.Compare(cat, sourceFile, out length, out catHash))
+													if (hash == catHash)
 														link = HardLink.Create(cat, destinationFile);
+													else
+														Logger.Log("inconsistent data", cat);
+												else
+													if (hash == catHash)
+														Logger.Log("hash collision", sourceFile, cat);
+													else
+														Logger.Log("corrupt file", cat);
 											}
 										}
 										if (!link && last != null)
 										{
 											var tandem = Path.Combine(Destination.Path, last, file);
 											string tandemHash;
-											if (tandem != cat && File.Exists(tandem) && Content.Compare(sourceFile, tandem, out length, out tandemHash) && tandemHash == hash)
+											if (tandem != cat && File.Exists(tandem) && Content.Compare(tandem, sourceFile, out length, out tandemHash) && tandemHash == hash)
 												link = HardLink.Create(tandem, destinationFile);
 										}
 										if (!link)
