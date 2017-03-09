@@ -69,10 +69,13 @@ namespace baco
 											if (hash == catHash)
 												link = HardLink.Create(cat, destinationFile);
 											else
-												Logger.Log("inconsistent data", cat);
+												Logger.Log("inconsistent data", sourceFile, cat);
 										else
 											if (hash == catHash)
-												Console.WriteLine($"hash collision {sourceFile} {cat}");
+											{
+												Console.WriteLine($"hash collision: {sourceFile} {cat}");
+												Statistics.IncCollision();
+											}
 											else
 												Logger.Log("corrupt file", cat);
 									}

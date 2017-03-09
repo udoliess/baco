@@ -51,6 +51,7 @@ namespace baco
 					Console.WriteLine();
 					WriteDestination();
 					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} backup(s) deleted.", Statistics.DeleteCount));
+					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} hash collision(s) occurred.", Statistics.CollisionCount));
 					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) copied.", Statistics.CopyBytes, Statistics.CopyCount));
 					Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0:N0} byte(s) in {1:N0} file(s) linked.", Statistics.LinkBytes, Statistics.LinkCount));
 					var elapsed = Statistics.Elapsed;

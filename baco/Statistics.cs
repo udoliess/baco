@@ -15,6 +15,7 @@ namespace baco
 		static long copyBytes;
 		static long linkCount;
 		static long linkBytes;
+		static long collisionCount;
 		static long errorCount;
 
 		public static void Create()
@@ -59,6 +60,13 @@ namespace baco
 		public static long LinkCount { get { return linkCount; } }
 
 		public static long LinkBytes { get { return linkBytes; } }
+
+		public static void IncCollision()
+		{
+			collisionCount++;
+		}
+
+		public static long CollisionCount { get { return collisionCount; } }
 
 		public static void IncError()
 		{
