@@ -107,7 +107,7 @@ namespace baco
 														Logger.Log("inconsistent data", cat);
 												else
 													if (hash == catHash)
-														Logger.Log("hash collision", sourceFile, cat);
+														Console.WriteLine($"hash collision {sourceFile} {cat}");
 													else
 														Logger.Log("corrupt file", cat);
 											}
