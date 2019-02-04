@@ -198,9 +198,9 @@ settings-file example:
 
 Copying of all backups from an old backup destination to a new backup destination can take very long. You can break this process and start it with same parameters later again - it will smoothly continue.
 
-linux command example to create checksum file: find 140101_0000/ -type f -exec sha1sum -b {} + | gzip -c > 140101_0000.sha1.gz
-linux command example to check files by checksum file: gzip -dc 140101_0000.sha1.gz | sha1sum -c --quiet --strict
-linux command example to check files by all checksum files: gzip -dc ??????_????.sha1.gz | sha1sum -c --quiet --strict
+linux command example to create checksum file: find 140101_0000/ -type f -exec sha256sum -b {} + | gzip -c > 140101_0000.sha256.gz
+linux command example to check files by checksum file: gzip -dc 140101_0000.sha256.gz | sha256sum -c --quiet --strict
+linux command example to check files by all checksum files: gzip -dc ??????_????.sha256.gz | sha256sum -c --quiet --strict
 ";
 
 	}

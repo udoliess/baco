@@ -8,7 +8,7 @@ namespace baco
 {
 	public class Hash : IDisposable
 	{
-		const string hashesExtension = "sha1.gz";
+		const string hashesExtension = "sha256.gz";
 		const string partialExtension = "part";
 		static readonly byte[] empty = new byte[0];
 		static readonly int hashCharacters;
@@ -16,7 +16,7 @@ namespace baco
 
 		static HashAlgorithm CreateAlgorithm()
 		{
-			return SHA1.Create();
+			return SHA256.Create();
 		}
 
 		static Hash()
