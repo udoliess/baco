@@ -12,7 +12,7 @@ they will not need new hard disk space. Rather baco generates hard links
 (hard link: two or more files on the same volume share their data bytes and
 attributes).
 Additional to the backup folder baco creates a compressed checksum file
-(*.sha1.gz) for each single backup. Via those checksums baco can find and link
+(*.sha256.gz) for each single backup. Via those checksums baco can find and link
 identical files. Those checksum files can also be used to verify integrity of
 all backup files.
 To configure a set of files and folders, which should be in the backup, you
@@ -46,5 +46,5 @@ see: [LICENSE.txt](https://udoliess.github.io/baco/LICENSE.txt)
 
 ---
 <https://udoliess.github.io/baco/>  
-Copyright (C) 2006...2017 Udo Liess
+Copyright (C) 2006...2019 Udo Liess
 
