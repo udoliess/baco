@@ -5,4 +5,4 @@ baco/*.pidb
 *.suo
 *.csproj.user
 *~
-
+.vs
