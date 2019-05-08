@@ -12,18 +12,17 @@ namespace baco
 		{
 			var catalog = new Dictionary<string, string>();
 			var last = default(string);
-			var stamp = Statistics.Start.ToString(Const.StampFormat, CultureInfo.InvariantCulture);
 			foreach (var l in Backups.Old(Destination.Path).OrderBy(x => x))
 			{
-				if (stamp == l)
-					throw new Exception(string.Format(CultureInfo.InvariantCulture, "backup {0} already exits", stamp));
+				if (Statistics.Stamp == l)
+					throw new Exception(string.Format(CultureInfo.InvariantCulture, "backup {0} already exits", Statistics.Stamp));
 				var h = Hash.Hashes(Path.Combine(Destination.Path, l));
 				if (File.Exists(h))
 					Hash.ReadHashes(h, (k, v) => catalog[k] = Path.Combine(Destination.Path, v));
 				last = l;
 			}
-			Console.WriteLine("create: " + stamp);
-			var backup = Path.Combine(Destination.Path, stamp);
+			Console.WriteLine("create: " + Statistics.Stamp);
+			var backup = Path.Combine(Destination.Path, Statistics.Stamp);
 			Directory.CreateDirectory(backup);
 			using (var hashes = Hash.CreateHashes(Hash.Partial(backup)))
 			{
@@ -40,7 +39,7 @@ namespace baco
 							try
 							{
 								Console.WriteLine("        " + PathEx.Suffixed(sourceDir));
-								Directory.CreateDirectory(Path.Combine(Destination.Path, stamp, source.Alias, dir));
+								Directory.CreateDirectory(Path.Combine(Destination.Path, Statistics.Stamp, source.Alias, dir));
 							}
 							catch (Exception e)
 							{
@@ -53,7 +52,7 @@ namespace baco
 							try
 							{
 								Console.WriteLine("        " + sourceFile);
-								var destinationFile = Path.Combine(Destination.Path, stamp, source.Alias, file);
+								var destinationFile = Path.Combine(Destination.Path, Statistics.Stamp, source.Alias, file);
 								var link = false;
 								var hash = Hash.FromFile(sourceFile);
 								string cat;
@@ -101,7 +100,7 @@ namespace baco
 									Statistics.IncCopy(length);
 								}
 								catalog [hash] = destinationFile;
-								Hash.AppendHash(hashes, hash, Path.Combine(stamp, source.Alias, file));
+								Hash.AppendHash(hashes, hash, Path.Combine(Statistics.Stamp, source.Alias, file));
 							}
 							catch (Exception e)
 							{
