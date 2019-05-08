@@ -7,7 +7,6 @@ namespace baco
 	public static class Statistics
 	{
 		static Stopwatch stopwatch;
-		static DateTime startUtc;
 		static DateTime start;
 		static string stamp;
 		static long deleteCount;
@@ -21,16 +20,13 @@ namespace baco
 		public static void Create()
 		{
 			stopwatch = Stopwatch.StartNew();
-			startUtc = DateTime.UtcNow;
-			start = startUtc.ToLocalTime();
+			start = DateTime.UtcNow;
 			stamp = Statistics.Start.ToString(Const.StampFormat, CultureInfo.InvariantCulture);
 		}
 
 		public static string Stamp { get { return stamp; } }
 
 		public static TimeSpan Elapsed { get { return stopwatch.Elapsed; } }
-
-		public static DateTime StartUtc { get { return startUtc; } }
 
 		public static DateTime Start { get { return start; } }
 
