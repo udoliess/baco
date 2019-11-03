@@ -26,7 +26,7 @@ Prerequisites
 baco needs Mono or .NET Framework 4.5 (or higher version) to be installed.  
 For Windows see <https://microsoft.com/net>.  
 For Ubuntu the needed Mono components can be installed with following command:
-`sudo apt-get install mono-runtime libmono-system-core4.0-cil`
+`sudo apt-get install mono-runtime libmono-system-core4.0-cil libmono-posix4.0-cil`
 
 Download
 --------
